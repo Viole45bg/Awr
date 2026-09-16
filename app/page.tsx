@@ -1345,9 +1345,9 @@ export default async function Home() {
           <p className="footer-copy">
             © {new Date().getFullYear()} WRFN — Wealth Rise &amp; Freedom
             Network. All rights reserved.
-            <br />
-            Financial decisions should be considered in light of your
-            individual position.
+            
+            
+          
           </p>
         </footer>
       </div>
