@@ -551,14 +551,7 @@ export default async function Home() {
 
             <div className="eyebrow">Your financial future starts here</div>
 
-            <p className="body-text">
-              Take the next step toward building long-term financial confidence
-              and achieving your investment goals. Whether you&apos;re looking
-              to grow your wealth, generate passive income, or plan for
-              retirement, our community provides valuable market insights,
-              educational resources, and trading guidance to help you make
-              informed financial decisions.
-            </p>
+            
 
             <div className="features">
               <div className="feature">
@@ -568,7 +561,7 @@ export default async function Home() {
                   </svg>
                 </div>
                 <h3>Market Insights</h3>
-                <p>Timely analysis and ideas to help you stay ahead of market movements.</p>
+                <p>Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.</p>
               </div>
               <div className="feature">
                 <div className="feature-icon">
