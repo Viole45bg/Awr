@@ -85,7 +85,7 @@ export default async function Home() {
             @keyframes tickerScroll { from { transform: translateX(-50%); } to { transform: translateX(0); } }
             @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
-            /* ── Nav — no border, seamlessly blends into hero ── */
+            /* ── Nav ── */
             .brand-bar {
               position: sticky; top: 0; z-index: 20;
               background: rgba(5,13,26,0.94);
@@ -99,8 +99,6 @@ export default async function Home() {
             }
             .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-decoration: none; }
             .brand-sub { font-size: 9px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); }
-
-            /* Solid blue pill — clearly visible */
             .nav-cta {
               font-size: 12px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase;
               color: #fff; background: var(--blue);
@@ -110,8 +108,8 @@ export default async function Home() {
             }
             .nav-cta:hover { background: var(--blue-glow); transform: translateY(-1px); }
 
-            /* ── Hero — flush against nav, no gap ── */
-            .hero { position: relative; width: 100%; line-height: 0; background: var(--navy); margin-top: 0; }
+            /* ── Hero ── */
+            .hero { position: relative; width: 100%; line-height: 0; background: var(--navy); }
             .hero-image { display: block; width: 100%; height: auto; object-fit: cover; }
             .hero-fade {
               position: absolute; bottom: 0; left: 0; right: 0; height: 160px;
@@ -121,7 +119,7 @@ export default async function Home() {
 
             /* ── Body section ── */
             .body-section {
-              padding: 72px 24px 88px;
+              padding: 64px 24px 88px;
               background: var(--navy);
               position: relative; overflow: hidden;
             }
@@ -129,7 +127,7 @@ export default async function Home() {
               content: ""; position: absolute; top: 40%; left: 50%;
               transform: translate(-50%, -50%);
               width: 800px; height: 600px;
-              background: radial-gradient(ellipse, rgba(26,110,245,0.14) 0%, transparent 70%);
+              background: radial-gradient(ellipse, rgba(26,110,245,0.13) 0%, transparent 70%);
               pointer-events: none;
             }
             .body-inner {
@@ -140,8 +138,6 @@ export default async function Home() {
               font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
               color: var(--blue-glow); margin-bottom: 22px;
             }
-
-            /* Body text paragraph — NO duplicate heading */
             .body-text {
               font-size: 17px; font-weight: 500; line-height: 1.9;
               color: var(--offwhite);
@@ -162,13 +158,265 @@ export default async function Home() {
               margin-bottom: 16px;
             }
             .feature-icon svg { width: 18px; height: 18px; fill: var(--blue-glow); }
-            .feature h3 {
-              margin: 0 0 10px; font-size: 13px; font-weight: 800;
-              text-transform: uppercase; letter-spacing: 0.6px; color: var(--white);
+            .feature h3 { margin: 0 0 10px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--white); }
+            .feature p { margin: 0; font-size: 13.5px; font-weight: 500; line-height: 1.75; color: rgba(255,255,255,0.70); }
+
+            /* ════════════════════════════════════════
+               ContactUs component styles
+               All classes used by ContactUs.tsx
+            ════════════════════════════════════════ */
+
+            .contact-flow {
+              display: flex;
+              justify-content: center;
+              margin-top: 8px;
             }
-            .feature p {
-              margin: 0; font-size: 13.5px; font-weight: 500; line-height: 1.75;
-              color: rgba(255,255,255,0.70);
+
+            /* Primary CTA button (closed state) */
+            .contact-us-btn {
+              display: inline-flex;
+              align-items: center;
+              gap: 10px;
+              padding: 16px 36px;
+              border: none;
+              border-radius: 100px;
+              background: var(--blue);
+              color: #fff;
+              font-family: var(--font-display), sans-serif;
+              font-size: 15px;
+              font-weight: 700;
+              letter-spacing: 0.3px;
+              cursor: pointer;
+              box-shadow: 0 10px 32px rgba(26,110,245,0.40);
+              transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            }
+            .contact-us-btn:hover {
+              transform: translateY(-2px);
+              background: var(--blue-glow);
+              box-shadow: 0 14px 38px rgba(26,110,245,0.50);
+            }
+
+            /* Expanded panel */
+            .contact-panel {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 22px;
+              width: 100%;
+            }
+
+            .selector-row {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 18px;
+            }
+
+            .selector-block {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
+            }
+
+            .selector-title {
+              font-size: 11px;
+              font-weight: 700;
+              letter-spacing: 1.8px;
+              text-transform: uppercase;
+              color: var(--muted);
+              font-family: var(--font-display), sans-serif;
+            }
+
+            .selector-title strong { color: var(--white); }
+
+            /* Dropdown toggle */
+            .dropdown { position: relative; }
+
+            .dropdown-backdrop {
+              position: fixed;
+              inset: 0;
+              z-index: 25;
+              background: transparent;
+            }
+
+            .dropdown-toggle {
+              appearance: none;
+              -webkit-appearance: none;
+              display: inline-flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 14px;
+              width: 100%;
+              min-width: 260px;
+              padding: 14px 22px;
+              border-radius: 100px;
+              border: 1.5px solid rgba(255,255,255,0.15);
+              background: rgba(255,255,255,0.06);
+              color: var(--white);
+              font-family: var(--font-display), sans-serif;
+              font-size: 14px;
+              font-weight: 600;
+              cursor: pointer;
+              text-align: left;
+              transition: border-color 0.2s, background 0.2s;
+            }
+            .dropdown-toggle:hover {
+              border-color: rgba(77,159,255,0.5);
+              background: rgba(255,255,255,0.09);
+            }
+
+            .dropdown-value.placeholder { color: var(--muted); }
+
+            .dropdown-chevron {
+              flex-shrink: 0;
+              color: var(--muted);
+              transition: transform 0.2s;
+            }
+            .dropdown.open .dropdown-chevron { transform: rotate(180deg); }
+
+            .dropdown-menu {
+              position: absolute;
+              top: calc(100% + 8px);
+              left: 50%;
+              transform: translateX(-50%);
+              width: min(100vw - 40px, 300px);
+              z-index: 30;
+              background: #0d1f3a;
+              border: 1px solid rgba(77,159,255,0.2);
+              border-radius: 18px;
+              box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+              padding: 8px;
+            }
+
+            .dropdown-option {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 12px;
+              width: 100%;
+              padding: 13px 16px;
+              border: none;
+              border-radius: 12px;
+              background: transparent;
+              color: var(--offwhite);
+              font-family: var(--font-display), sans-serif;
+              font-size: 14px;
+              font-weight: 600;
+              text-align: left;
+              cursor: pointer;
+              transition: background 0.15s;
+            }
+            .dropdown-option:hover { background: rgba(77,159,255,0.12); }
+            .dropdown-option.selected { color: var(--blue-glow); }
+
+            .dropdown-check {
+              width: 22px; height: 22px;
+              flex-shrink: 0;
+              border-radius: 50%;
+              border: 2px solid rgba(255,255,255,0.15);
+              display: grid;
+              place-items: center;
+              transition: background 0.15s, border-color 0.15s;
+            }
+            .dropdown-option.selected .dropdown-check {
+              background: var(--accent, var(--blue));
+              border-color: var(--accent, var(--blue));
+            }
+
+            /* Channels / pills */
+            .channels {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 14px;
+            }
+
+            .flow-summary {
+              font-size: 13px;
+              font-weight: 600;
+              color: var(--muted);
+            }
+            .flow-summary b { color: var(--white); }
+
+            .contact-pills {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-wrap: nowrap;
+              gap: 12px;
+            }
+
+            .contact-pill {
+              display: inline-flex;
+              align-items: center;
+              gap: 12px;
+              padding: 13px 22px 13px 12px;
+              border-radius: 16px;
+              text-decoration: none;
+              font-size: 15px;
+              font-weight: 700;
+              letter-spacing: 0.2px;
+              transition: transform 0.2s, box-shadow 0.2s;
+            }
+            .contact-pill:hover { transform: translateY(-2px); }
+
+            .contact-pill.whatsapp {
+              background: var(--whatsapp);
+              color: #fff;
+              box-shadow: 0 8px 24px rgba(37,211,102,0.30);
+            }
+            .contact-pill.telegram {
+              background: var(--telegram);
+              color: #fff;
+              box-shadow: 0 8px 24px rgba(34,158,217,0.30);
+            }
+
+            .pill-icon-wrap {
+              width: 34px; height: 34px;
+              flex-shrink: 0;
+              border-radius: 10px;
+              background: rgba(255,255,255,0.20);
+              display: grid;
+              place-items: center;
+            }
+
+            .pill-glyph { width: 18px; height: 18px; fill: #fff; display: block; }
+
+            .pill-arrow { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.85; }
+
+            .pill-label { white-space: nowrap; }
+
+            /* Close button */
+            .contact-close {
+              align-self: center;
+              margin-top: 4px;
+              width: 34px; height: 34px;
+              border-radius: 50%;
+              border: 1px solid rgba(255,255,255,0.15);
+              background: rgba(255,255,255,0.06);
+              color: var(--muted);
+              font-size: 17px;
+              line-height: 1;
+              cursor: pointer;
+              transition: transform 0.25s, color 0.2s, background 0.2s;
+            }
+            .contact-close:hover {
+              transform: rotate(90deg);
+              color: var(--white);
+              background: rgba(255,255,255,0.12);
+            }
+
+            /* Animations */
+            @media (prefers-reduced-motion: no-preference) {
+              .contact-panel.revealed,
+              .channels.revealed {
+                animation: pillIn 0.35s cubic-bezier(.22,1,.36,1) both;
+              }
+              @keyframes pillIn {
+                from { opacity: 0; transform: translateY(10px) scale(.97); }
+                to   { opacity: 1; transform: none; }
+              }
             }
 
             /* ── Footer ── */
@@ -180,9 +428,13 @@ export default async function Home() {
             @media (max-width: 640px) {
               .brand-bar { padding: 12px 16px; }
               .brand-sub { display: none; }
-              .body-section { padding: 56px 18px 64px; }
-              .body-text { font-size: 16px; }
+              .body-section { padding: 48px 18px 64px; }
+              .body-text { font-size: 15px; }
               .features { grid-template-columns: 1fr; gap: 12px; }
+              .selector-row { flex-direction: column; align-items: center; }
+              .contact-pill { padding: 11px 14px 11px 10px; font-size: 14px; }
+              .pill-arrow { display: none; }
+              .contact-pills { gap: 10px; }
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -216,7 +468,6 @@ export default async function Home() {
         <header className="brand-bar">
           <div className="brand-bar-inner">
             <Link href="/" className="brand">
-              {/* Bigger logo — width 160 gives a good navbar size */}
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
@@ -224,7 +475,7 @@ export default async function Home() {
           </div>
         </header>
 
-        {/* ── Hero — no margin/padding gap ── */}
+        {/* ── Hero ── */}
         <section className="hero">
           <Image
             src="/banner.jpg"
@@ -238,13 +489,12 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ── Body copy — no duplicate h1 ── */}
+        {/* ── Body copy ── */}
         <section className="body-section" id="contact">
           <div className="body-inner fade-up">
 
             <div className="eyebrow">Your financial future starts here</div>
 
-            {/* No heading here — hero already says "Grow Wealth. Create Freedom." */}
             <p className="body-text">
               Take the next step toward building long-term financial confidence
               and achieving your investment goals. Whether you&apos;re looking
