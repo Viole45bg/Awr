@@ -391,7 +391,7 @@ export default async function Home() {
         <header className="brand-bar">
           <div className="brand-bar-inner">
             <Link href="/" className="brand">
-              <Logo size={36} color="#ffffff" />
+              <Logo width={36} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
             <a href="#contact" className="nav-cta">Join Us</a>
