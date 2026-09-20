@@ -133,7 +133,8 @@ export default async function Home() {
 
             a { color: inherit; text-decoration: none; }
             a:focus-visible, button:focus-visible { outline: 2px solid var(--blue-glow); outline-offset: 3px; }
-            section[id] { scroll-margin-top: 72px; }
+            section[id] { scroll-margin-top: 90px; }
+            #contact { scroll-margin-top: 90px; }
 
             /* ── Ticker ── */
             .ticker { overflow: hidden; background: var(--blue); padding: 9px 0; }
@@ -167,10 +168,58 @@ export default async function Home() {
               border-radius: 100px; padding: 12px 28px;
               transition: background 0.2s, transform 0.15s;
               white-space: nowrap;
+              cursor: pointer;
             }
             .nav-cta:hover { background: var(--blue-glow); transform: translateY(-1px); }
 
-            /* ── Hero ── */
+            /* ── Hero: Market Insights (New) ── */
+            .hero-market-insights {
+              position: relative;
+              padding: 120px 24px 80px;
+              text-align: center;
+              z-index: 1;
+            }
+            .hero-inner {
+              max-width: 900px;
+              margin: 0 auto;
+            }
+            .hero-icon {
+              width: 80px;
+              height: 80px;
+              border-radius: 24px;
+              background: rgba(26,110,245,0.20);
+              display: grid;
+              place-items: center;
+              margin: 0 auto 32px;
+            }
+            .hero-icon svg {
+              width: 40px;
+              height: 40px;
+              fill: var(--blue-glow);
+            }
+            .hero-title {
+              font-size: 56px;
+              font-weight: 900;
+              margin: 0 0 24px;
+              line-height: 1.1;
+              letter-spacing: -0.02em;
+              background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+            .hero-text {
+              font-size: 20px;
+              line-height: 1.7;
+              color: var(--offwhite);
+              max-width: 760px;
+              margin: 0 auto 56px;
+            }
+            .hero-contact {
+              display: flex;
+              justify-content: center;
+            }
+
+            /* ── Original Hero ── */
             .hero { position: relative; width: 100%; line-height: 0; background: var(--navy); }
             .hero-image { display: block; width: 100%; height: auto; object-fit: cover; }
             .hero-fade {
@@ -201,7 +250,12 @@ export default async function Home() {
             }
 
             /* ── Feature cards ── */
-            .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 0 0 52px; }
+            .features { display: grid; gap: 16px; margin: 0 0 52px; }
+            .features-grid-2 {
+              grid-template-columns: repeat(2, 1fr);
+              max-width: 800px;
+              margin: 0 auto;
+            }
             .feature {
               background: var(--navy-card);
               border: 1px solid rgba(77,159,255,0.2);
@@ -475,6 +529,39 @@ export default async function Home() {
               }
             }
 
+            /* ── Floating Chat Action Button ── */
+            .floating-chat {
+              position: fixed;
+              bottom: 32px;
+              right: 32px;
+              z-index: 50;
+              width: 64px;
+              height: 64px;
+              border-radius: 50%;
+              background: var(--whatsapp);
+              display: grid;
+              place-items: center;
+              box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+              transition: transform 0.2s, box-shadow 0.2s;
+              cursor: pointer;
+              border: none;
+              animation: pulseChat 3s infinite;
+            }
+            .floating-chat:hover {
+              transform: scale(1.1) translateY(-2px);
+              box-shadow: 0 14px 40px rgba(37, 211, 102, 0.5);
+            }
+            .floating-chat svg {
+              width: 32px;
+              height: 32px;
+              fill: #fff;
+            }
+            @keyframes pulseChat {
+              0% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0.7); }
+              70% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 15px rgba(37, 211, 102, 0); }
+              100% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0); }
+            }
+
             /* ── Footer ── */
             footer { padding: 36px 24px; background: rgba(9,20,38,0.85); border-top: 1px solid var(--line); text-align: center; }
             .footer-name { font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
@@ -486,11 +573,21 @@ export default async function Home() {
               .brand-sub { display: none; }
               .body-section { padding: 48px 18px 64px; }
               .body-text { font-size: 15px; }
-              .features { grid-template-columns: 1fr; gap: 12px; }
+              .features { gap: 12px; }
+              .features-grid-2 { grid-template-columns: 1fr; }
               .selector-row { flex-direction: column; align-items: center; }
               .contact-pill { padding: 11px 14px 11px 10px; font-size: 14px; }
               .pill-arrow { display: none; }
               .contact-pills { gap: 10px; }
+              
+              .hero-market-insights { padding: 80px 18px 48px; }
+              .hero-title { font-size: 36px; }
+              .hero-text { font-size: 16px; margin-bottom: 40px; }
+              .hero-icon { width: 60px; height: 60px; }
+              .hero-icon svg { width: 30px; height: 30px; }
+              
+              .floating-chat { bottom: 20px; right: 20px; width: 56px; height: 56px; }
+              .floating-chat svg { width: 28px; height: 28px; }
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -531,7 +628,27 @@ export default async function Home() {
           </div>
         </header>
 
-        {/* ── Hero ── */}
+        {/* ── New Hero: Market Insights ── */}
+        <section className="hero-market-insights" id="contact">
+          <div className="hero-inner fade-up">
+            <div className="eyebrow">Your financial future starts here</div>
+            <div className="feature-icon hero-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 17l4-8 4 5 3-4 4 7H3z"/>
+              </svg>
+            </div>
+            <h1 className="hero-title">Market Insights</h1>
+            <p className="hero-text">
+              Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
+            </p>
+            
+            <div className="hero-contact">
+              <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
+            </div>
+          </div>
+        </section>
+
+        {/* ── Original Hero (Banner) moved below ── */}
         <section className="hero">
           <Image
             src="/banner.jpg"
@@ -545,24 +662,11 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ── Body copy ── */}
-        <section className="body-section" id="contact">
+        {/* ── Remaining Features ── */}
+        <section className="body-section">
           <div className="body-inner fade-up">
-
-            <div className="eyebrow">Your financial future starts here</div>
-
-            
-
-            <div className="features">
-              <div className="feature">
-                <div className="feature-icon">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 17l4-8 4 5 3-4 4 7H3z"/>
-                  </svg>
-                </div>
-                <h2>Market Insights</h2>
-                <p>Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.</p>
-              </div>
+             <div className="eyebrow">Why Join Us</div>
+             <div className="features features-grid-2">
               <div className="feature">
                 <div className="feature-icon">
                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -582,9 +686,6 @@ export default async function Home() {
                 <p>Step-by-step support so every trade decision is informed and confident.</p>
               </div>
             </div>
-
-            <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
-
           </div>
         </section>
 
@@ -595,6 +696,19 @@ export default async function Home() {
             © {new Date().getFullYear()} AWR — Alpha Wealth &amp; Retirement Club. All rights reserved.
           </p>
         </footer>
+
+        {/* ── Floating Chat Action Button ── */}
+        <a 
+          href={WHATSAPP_URL} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="floating-chat" 
+          aria-label="Chat with us on WhatsApp"
+        >
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+        </a>
       </div>
     </main>
   );
