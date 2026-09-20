@@ -560,7 +560,7 @@ export default async function Home() {
                     <path d="M3 17l4-8 4 5 3-4 4 7H3z"/>
                   </svg>
                 </div>
-                <h3>Market Insights</h3>
+                <h2>Market Insights</h2>
                 <p>Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.</p>
               </div>
               <div className="feature">
