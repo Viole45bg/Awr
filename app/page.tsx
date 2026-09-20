@@ -68,7 +68,69 @@ export default async function Home() {
             *, *::before, *::after { box-sizing: border-box; }
             html { scroll-behavior: smooth; }
             html, body { margin: 0; padding: 0; background: var(--navy); color: var(--white); }
-            body { font-family: var(--font-display), system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+            body {
+              font-family: var(--font-display), system-ui, sans-serif;
+              -webkit-font-smoothing: antialiased;
+              position: relative;
+            }
+
+            /* ══════════════════════════════════════════
+               BACKGROUND: perspective city grid
+               Layer A: flat grid + glow + dot nodes (fixed, full page)
+               Layer B: perspective floor grid (fixed, bottom 65vh)
+            ══════════════════════════════════════════ */
+
+            body::before {
+              content: "";
+              position: fixed;
+              inset: 0;
+              z-index: 0;
+              pointer-events: none;
+              background-image:
+                radial-gradient(circle 1.5px at 18% 72%, rgba(77,159,255,0.55) 0%, transparent 100%),
+                radial-gradient(circle 1px   at 31% 85%, rgba(77,159,255,0.40) 0%, transparent 100%),
+                radial-gradient(circle 2px   at 47% 78%, rgba(77,159,255,0.60) 0%, transparent 100%),
+                radial-gradient(circle 1px   at 62% 91%, rgba(77,159,255,0.35) 0%, transparent 100%),
+                radial-gradient(circle 1.5px at 74% 68%, rgba(77,159,255,0.50) 0%, transparent 100%),
+                radial-gradient(circle 1px   at 83% 80%, rgba(77,159,255,0.40) 0%, transparent 100%),
+                radial-gradient(circle 2px   at 9%  80%, rgba(77,159,255,0.45) 0%, transparent 100%),
+                radial-gradient(circle 1px   at 55% 62%, rgba(77,159,255,0.30) 0%, transparent 100%),
+                radial-gradient(circle 1.5px at 92% 75%, rgba(77,159,255,0.45) 0%, transparent 100%),
+                radial-gradient(circle 1px   at 38% 95%, rgba(77,159,255,0.30) 0%, transparent 100%),
+                radial-gradient(ellipse 80% 55% at 50% 38%, rgba(26,110,245,0.22) 0%, rgba(26,110,245,0.06) 45%, transparent 70%),
+                linear-gradient(rgba(42,127,255,0.055) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(42,127,255,0.055) 1px, transparent 1px);
+              background-size:
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                100% 100%,
+                52px 52px,
+                52px 52px;
+            }
+
+            body::after {
+              content: "";
+              position: fixed;
+              left: 0; right: 0; bottom: 0;
+              height: 65vh;
+              z-index: 0;
+              pointer-events: none;
+              background-image:
+                linear-gradient(rgba(42,127,255,0.09) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(42,127,255,0.09) 1px, transparent 1px);
+              background-size: 52px 52px;
+              transform: perspective(500px) rotateX(40deg);
+              transform-origin: 50% 0%;
+              -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+              mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            }
+
+            header, main > div, section, footer, .ticker {
+              position: relative;
+              z-index: 1;
+            }
+
             a { color: inherit; text-decoration: none; }
             a:focus-visible, button:focus-visible { outline: 2px solid var(--blue-glow); outline-offset: 3px; }
             section[id] { scroll-margin-top: 72px; }
@@ -88,7 +150,7 @@ export default async function Home() {
             /* ── Nav ── */
             .brand-bar {
               position: sticky; top: 0; z-index: 20;
-              background: rgba(5,13,26,0.94);
+              background: rgba(5,13,26,0.88);
               backdrop-filter: blur(14px);
               border-bottom: none;
               padding: 14px 24px;
@@ -120,16 +182,10 @@ export default async function Home() {
             /* ── Body section ── */
             .body-section {
               padding: 64px 24px 88px;
-              background: var(--navy);
+              background: transparent;
               position: relative; overflow: hidden;
             }
-            .body-section::before {
-              content: ""; position: absolute; top: 40%; left: 50%;
-              transform: translate(-50%, -50%);
-              width: 800px; height: 600px;
-              background: radial-gradient(ellipse, rgba(26,110,245,0.13) 0%, transparent 70%);
-              pointer-events: none;
-            }
+
             .body-inner {
               position: relative; z-index: 1;
               width: min(720px, 100%); margin: 0 auto; text-align: center;
@@ -420,7 +476,7 @@ export default async function Home() {
             }
 
             /* ── Footer ── */
-            footer { padding: 36px 24px; background: var(--navy-mid); border-top: 1px solid var(--line); text-align: center; }
+            footer { padding: 36px 24px; background: rgba(9,20,38,0.85); border-top: 1px solid var(--line); text-align: center; }
             .footer-name { font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
             .footer-copy { font-size: 11px; font-weight: 500; color: var(--muted); line-height: 1.6; margin: 0 auto; max-width: 560px; }
 
