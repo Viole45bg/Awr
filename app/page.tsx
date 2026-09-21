@@ -28,7 +28,7 @@ async function getLinks() {
         livechat_enabled BOOLEAN NOT NULL DEFAULT TRUE
       )
     `;
-    
+
     // Backfill columns if the table already existed
     await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS whatsapp_enabled BOOLEAN NOT NULL DEFAULT TRUE`;
     await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS telegram_enabled BOOLEAN NOT NULL DEFAULT TRUE`;
@@ -40,7 +40,6 @@ async function getLinks() {
         whatsapp_enabled, telegram_enabled, livechat_enabled 
       FROM site_links WHERE id = 1
     `;
-    
     const row = rows[0];
     return {
       whatsapp: row?.whatsapp_url ?? "",
@@ -53,9 +52,9 @@ async function getLinks() {
     };
   } catch (err) {
     console.error("getLinks failed:", err);
-    return { 
+    return {
       whatsapp: "", telegram: "", livechat: "", agentName: "",
-      whatsappEnabled: true, telegramEnabled: true, livechatEnabled: true 
+      whatsappEnabled: true, telegramEnabled: true, livechatEnabled: true,
     };
   }
 }
@@ -75,18 +74,19 @@ export default async function Home() {
     telegram: TELEGRAM_URL,
     whatsappEnabled,
     telegramEnabled,
-    // livechat, livechatEnabled, agentName (pass to ContactUs if needed)
   } = await getLinks();
 
   // Determine the best available link for the top navigation
-  const topNavUrl = (telegramEnabled && TELEGRAM_URL) ? TELEGRAM_URL : (whatsappEnabled && WHATSAPP_URL) ? WHATSAPP_URL : null;
+  const topNavUrl =
+    telegramEnabled && TELEGRAM_URL
+      ? TELEGRAM_URL
+      : whatsappEnabled && WHATSAPP_URL
+      ? WHATSAPP_URL
+      : null;
 
   return (
     <main className={display.variable}>
       <style
-        dangerouslySetInnerHTML={{
-          __html: `
-                  <style
         dangerouslySetInnerHTML={{
           __html: `
             :root {
@@ -590,7 +590,7 @@ export default async function Home() {
               }
             }
 
-            /* ── Footer ── */
+            /* ── Footer ─ */
             footer { padding: 36px 24px; background: rgba(9,20,38,0.85); border-top: 1px solid var(--line); text-align: center; }
             .footer-name { font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
             .footer-copy { font-size: 11px; font-weight: 500; color: var(--muted); line-height: 1.6; margin: 0 auto; max-width: 560px; }
@@ -635,7 +635,7 @@ export default async function Home() {
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
-            
+
             {/* Conditionally render Top Nav CTA */}
             {topNavUrl && (
               <a href={topNavUrl} target="_blank" rel="noopener noreferrer" className="nav-cta">
@@ -657,10 +657,9 @@ export default async function Home() {
             </p>
 
             <div className="hero-contact">
-              {/* Pass the enabled flags down to the ContactUs component */}
-              <ContactUs 
-                whatsappUrl={WHATSAPP_URL} 
-                telegramUrl={TELEGRAM_URL} 
+              <ContactUs
+                whatsappUrl={WHATSAPP_URL}
+                telegramUrl={TELEGRAM_URL}
                 whatsappEnabled={whatsappEnabled}
                 telegramEnabled={telegramEnabled}
               />
@@ -708,7 +707,7 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* ── Ticker ── */}
+          {/* ── Ticker (full width) ── */}
           <div className="ticker" role="status" aria-label="Now accepting new members">
             <div className="ticker-track">
               {[0, 1].map((copy) => (
