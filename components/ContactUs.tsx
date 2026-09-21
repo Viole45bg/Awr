@@ -10,19 +10,11 @@ const EXPERIENCES = [
   { value: "experienced", label: "Experienced" },
 ];
 
-const MARKETS = [
-  { value: "", label: "Select your market" },
-  { value: "stocks", label: "Stocks" },
-  { value: "retirement", label: "Retirement" },
-  { value: "investment", label: "Investment" },
-];
-
-function buildUrl(base: string, experience: string, market: string) {
-  if (!experience && !market) return base;
+function buildUrl(base: string, experience: string) {
+  if (!experience) return base;
   try {
     const url = new URL(base);
-    if (experience) url.searchParams.set("experience", experience);
-    if (market) url.searchParams.set("market", market);
+    url.searchParams.set("experience", experience);
     return url.toString();
   } catch {
     return base;
@@ -166,7 +158,6 @@ export default function ContactUs({
 }) {
   const [open, setOpen] = useState(false);
   const [experience, setExperience] = useState("");
-  const [market, setMarket] = useState("");
   const id = useId();
 
   if (!open) {
@@ -177,7 +168,7 @@ export default function ContactUs({
           className="contact-us-btn"
           onClick={() => setOpen(true)}
         >
-          Contact WRFN Team
+          Connect with AWR Team
           <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
             <path
               d="M5 12h14M13 6l6 6-6 6"
@@ -193,31 +184,16 @@ export default function ContactUs({
     );
   }
 
-  const ready = Boolean(experience && market);
+  const ready = Boolean(experience);
 
   return (
     <div className="contact-flow">
       <div className="contact-panel revealed">
         <div className="selector-row">
-          {/* Market is Step 1 */}
-          <div className="selector-block">
-            <span className="selector-title" id={`${id}-mkt-label`}>
-              <strong></strong> — Which market interests you?
-            </span>
-            <Dropdown
-              id={`${id}-mkt`}
-              label="Select your market"
-              value={market}
-              options={MARKETS}
-              accent="mkt"
-              onChange={setMarket}
-            />
-          </div>
-
-          {/* Experience is Step 2 */}
+          {/* Experience is Step 1 */}
           <div className="selector-block">
             <span className="selector-title" id={`${id}-exp-label`}>
-              <strong></strong> — What&apos;s your experience level?
+              <strong>Step 1</strong> — What&apos;s your experience level?
             </span>
             <Dropdown
               id={`${id}-exp`}
@@ -234,19 +210,17 @@ export default function ContactUs({
           <span className="flow-summary">
             {ready ? (
               <>
-                <b>{MARKETS.find((m) => m.value === market)?.label}</b>
-                {" "}&middot;{" "}
-                <b>{EXPERIENCES.find((e) => e.value === experience)?.label}</b> —
-                reach the team on:
+                <b>{EXPERIENCES.find((e) => e.value === experience)?.label}</b>
+                {" "}— reach the team on:
               </>
             ) : (
-              "Your picks personalize the chat link."
+              "Select your experience to personalize the chat link."
             )}
           </span>
           <div className="contact-pills">
             <a
               className="contact-pill whatsapp"
-              href={buildUrl(whatsappUrl, experience, market)}
+              href={buildUrl(whatsappUrl, experience)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -258,7 +232,7 @@ export default function ContactUs({
             </a>
             <a
               className="contact-pill telegram"
-              href={buildUrl(telegramUrl, experience, market)}
+              href={buildUrl(telegramUrl, experience)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -279,7 +253,6 @@ export default function ContactUs({
           onClick={() => {
             setOpen(false);
             setExperience("");
-            setMarket("");
           }}
         >
           &times;
