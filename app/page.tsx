@@ -294,7 +294,7 @@ export default async function Home() {
 
             .hero-contact {
               display: flex;
-              justify-content: left;
+              justify-content: center;
             }
 
             /* ── ExperienceSelector ── */
