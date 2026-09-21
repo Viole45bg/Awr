@@ -6,7 +6,6 @@ import Logo from "../components/Logo";
 import ContactUs from "../components/ContactUs";
 import ExperienceSelector from "../components/ExperienceSelector";
 
-
 const display = Montserrat({
   subsets: ["latin"],
   weight: ["400", "600", "700", "800", "900"],
@@ -54,8 +53,6 @@ export default async function Home() {
   const {
     whatsapp: WHATSAPP_URL,
     telegram: TELEGRAM_URL,
-    livechat: LIVECHAT_URL,
-    agentName: AGENT_NAME,
   } = await getLinks();
 
   return (
@@ -147,7 +144,7 @@ export default async function Home() {
             #contact { scroll-margin-top: 90px; }
 
             /* ── Ticker ── */
-            .ticker { overflow: hidden; background: var(--blue); padding: 9px 0; }
+            .ticker { overflow: hidden; background: var(--blue); padding: 9px 0; margin-bottom: 56px; }
             .ticker-track { display: flex; width: max-content; animation: tickerScroll 55s linear infinite; }
             .ticker-group { display: flex; align-items: center; white-space: nowrap; }
             .ticker-item {
@@ -640,6 +637,21 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
+        {/* ── Ticker (above Experience Selector) ── */}
+        <div className="ticker" role="status" aria-label="Now accepting new members">
+          <div className="ticker-track">
+            {[0, 1].map((copy) => (
+              <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <span className="ticker-item" key={i}>
+                    Now accepting new members
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* ── Features & Experience ── */}
         <section className="body-section">
           <div className="body-inner fade-up">
@@ -664,27 +676,11 @@ export default async function Home() {
                 <p>Step-by-step support so every trade decision is informed and confident.</p>
               </div>
             </div>
-            {/* ── Ticker ── */}
-        <div className="ticker" role="status" aria-label="Now accepting new members">
-          <div className="ticker-track">
-            {[0, 1].map((copy) => (
-              <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <span className="ticker-item" key={i}>
-                    Now accepting new members
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
 
             <div className="eyebrow" style={{ marginTop: "64px" }}>Select Your Experience</div>
             <ExperienceSelector />
           </div>
         </section>
-
-        
 
         {/* ── Bottom CTA bar ── */}
         <div className="bottom-cta-bar">
@@ -700,8 +696,7 @@ export default async function Home() {
             © {new Date().getFullYear()} AWR — Alpha Wealth &amp; Retirement Club. All rights reserved.
           </p>
         </footer>
-</div>
-        
+      </div>
     </main>
   );
 }
