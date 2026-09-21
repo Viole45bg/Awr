@@ -4,7 +4,6 @@ import { neon } from "@neondatabase/serverless";
 import { Montserrat } from "next/font/google";
 import Logo from "../components/Logo";
 import ContactUs from "../components/ContactUs";
-import NavCta from "../components/NavCta";
 import ExperienceSelector from "../components/ExperienceSelector";
 import LiveChatWidget from "../components/LiveChatWidget";
 
@@ -76,7 +75,6 @@ export default async function Home() {
               font-family: var(--font-display), system-ui, sans-serif;
               -webkit-font-smoothing: antialiased;
               position: relative;
-              padding-bottom: 88px;
             }
 
             /* ══════════════════════════════════════════
@@ -164,36 +162,58 @@ export default async function Home() {
             }
             .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-decoration: none; }
             .brand-sub { font-size: 9px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); }
+            
+            /* Nav CTA as plain text */
             .nav-cta {
-              font-size: 7px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase;
-              color: #fff; background: var(--blue);
-              border-radius: 100px; padding: 12px 28px;
-              transition: background 0.2s, transform 0.15s;
+              font-size: 13px; 
+              font-weight: 600; 
+              letter-spacing: 0.5px; 
+              text-transform: uppercase;
+              color: var(--offwhite);
+              background: transparent;
+              border-radius: 0;
+              padding: 4px 0;
+              transition: color 0.2s;
               white-space: nowrap;
               cursor: pointer;
               border: none;
+              text-decoration: none;
+              box-shadow: none;
+              display: inline-flex;
+              align-items: center;
             }
-            .nav-cta:hover { background: var(--blue-glow); transform: translateY(-1px); }
+            .nav-cta:hover { color: var(--white); transform: none; }
 
-            /* ── Bottom CTA bar ── */
+            /* ── Bottom CTA bar (Organic flow) ── */
             .bottom-cta-bar {
-              position: fixed;
-              bottom: 0;
-              left: 0;
-              right: 0;
-              z-index: 40;
+              position: relative;
+              z-index: 1;
               display: flex;
               justify-content: center;
-              padding: 14px 24px 20px;
-              background: linear-gradient(to top, rgba(5,13,26,0.97) 55%, transparent 100%);
-              backdrop-filter: blur(6px);
-              pointer-events: none;
+              padding: 48px 24px 80px;
+              pointer-events: auto;
+              background: transparent;
             }
             .bottom-cta-bar > * { pointer-events: auto; }
+            
+            /* Distinct styling for the Bottom CTA Pill */
             .bottom-cta-bar .nav-cta {
-              font-size: 11px;
-              padding: 14px 36px;
+              font-size: 14px;
+              font-weight: 700;
+              letter-spacing: 0.6px;
+              text-transform: uppercase;
+              color: #fff; 
+              background: var(--blue);
+              border-radius: 100px; 
+              padding: 16px 36px;
               box-shadow: 0 8px 28px rgba(26,110,245,0.45);
+              transition: background 0.2s, transform 0.15s;
+              display: inline-block;
+            }
+            .bottom-cta-bar .nav-cta:hover { 
+              background: var(--blue-glow); 
+              transform: translateY(-2px); 
+              color: #fff;
             }
 
             /* ── Hero: Market Insights ── */
@@ -547,7 +567,7 @@ export default async function Home() {
               .hero-title { font-size: 36px; }
               .hero-text { font-size: 16px; margin-bottom: 32px; }
 
-              .bottom-cta-bar { padding: 12px 16px 18px; }
+              .bottom-cta-bar { padding: 32px 16px 48px; }
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -569,7 +589,9 @@ export default async function Home() {
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
-            <NavCta />
+            <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
+              Contact Us
+            </a>
           </div>
         </header>
 
@@ -580,10 +602,6 @@ export default async function Home() {
             <p className="hero-text">
               Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
             </p>
-
-            <div className="hero-experience">
-              <ExperienceSelector />
-            </div>
 
             <div className="hero-contact">
               <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
@@ -605,7 +623,7 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ── Features ── */}
+        {/* ── Features & Experience ── */}
         <section className="body-section">
           <div className="body-inner fade-up">
             <div className="eyebrow">Why Join Us</div>
@@ -629,6 +647,9 @@ export default async function Home() {
                 <p>Step-by-step support so every trade decision is informed and confident.</p>
               </div>
             </div>
+
+            <div className="eyebrow" style={{ marginTop: "64px" }}>Select Your Experience</div>
+            <ExperienceSelector />
           </div>
         </section>
 
@@ -647,6 +668,13 @@ export default async function Home() {
           </div>
         </div>
 
+        {/* ── Bottom CTA bar ── */}
+        <div className="bottom-cta-bar">
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
+            Join Our Community
+          </a>
+        </div>
+
         {/* ── Footer ── */}
         <footer>
           <div className="footer-name">Alpha Wealth &amp; Retirement Club</div>
@@ -657,11 +685,6 @@ export default async function Home() {
 
         {/* ── Floating Chat ── */}
         <LiveChatWidget livechatUrl={TELEGRAM_URL} agentName={telegramUsername} />
-
-        {/* ── Bottom CTA bar (fixed, full-width) ── */}
-        <div className="bottom-cta-bar">
-          <NavCta />
-        </div>
       </div>
     </main>
   );
