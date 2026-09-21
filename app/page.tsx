@@ -228,8 +228,8 @@ export default async function Home() {
               margin: 0 auto;
             }
             .hero-title {
-              font-size: 36px;
-              font-weight: 400;
+              font-size: 26px;
+              font-weight: 700;
               margin: 0 0 24px;
               line-height: 1.1;
               letter-spacing: -0.02em;
