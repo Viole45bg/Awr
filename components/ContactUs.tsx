@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 
 const WhatsAppGlyph = () => (
   <svg viewBox="0 0 24 24" className="pill-glyph" aria-hidden="true">
@@ -49,40 +49,29 @@ export default function ContactUs({
   const showWhatsApp = whatsappEnabled && !!whatsappUrl;
   const showTelegram = telegramEnabled && !!telegramUrl;
   const availableCount = (showWhatsApp ? 1 : 0) + (showTelegram ? 1 : 0);
+  const isSingle = availableCount === 1;
+
+  // Only applied when a single channel is available:
+  // center the whole contact block inside the hero
+  const centerFlowStyle: CSSProperties | undefined = isSingle
+    ? { width: "100%", justifyContent: "center" }
+    : undefined;
+
+  // Only applied to the lone pill: wider + vertically roomier
+  const singlePillStyle: CSSProperties | undefined = isSingle
+    ? {
+        minWidth: 280,
+        justifyContent: "center",
+        padding: "15px 28px",
+      }
+    : undefined;
 
   // No channels available → hide completely
   if (availableCount === 0) return null;
 
-  // Exactly ONE channel → render a single direct CTA pill.
-  // No expand step, no "Reach the team on:" label, no close button.
-  if (availableCount === 1) {
-    const isWhatsApp = showWhatsApp;
-    const href = isWhatsApp ? whatsappUrl : telegramUrl;
-    const label = isWhatsApp ? "Join WhatsApp" : "Join Telegram";
-
-    return (
-      <div className="contact-flow">
-        <a
-          className={`contact-pill ${isWhatsApp ? "whatsapp" : "telegram"}`}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ padding: "16px 30px 16px 14px", borderRadius: 100, fontSize: 16 }}
-        >
-          <span className="pill-icon-wrap" style={{ width: 38, height: 38 }}>
-            {isWhatsApp ? <WhatsAppGlyph /> : <TelegramGlyph />}
-          </span>
-          <span className="pill-label">{label}</span>
-          <PillArrow />
-        </a>
-      </div>
-    );
-  }
-
-  // BOTH channels → original expandable panel behavior
   if (!open) {
     return (
-      <div className="contact-flow">
+      <div className="contact-flow" style={centerFlowStyle}>
         <button
           type="button"
           className="contact-us-btn"
@@ -105,7 +94,7 @@ export default function ContactUs({
   }
 
   return (
-    <div className="contact-flow">
+    <div className="contact-flow" style={centerFlowStyle}>
       <div className="contact-panel revealed">
         <div className="channels">
           <span className="flow-summary">Reach the team on:</span>
@@ -116,6 +105,7 @@ export default function ContactUs({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                style={singlePillStyle}
               >
                 <span className="pill-icon-wrap">
                   <WhatsAppGlyph />
@@ -130,6 +120,7 @@ export default function ContactUs({
                 href={telegramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                style={singlePillStyle}
               >
                 <span className="pill-icon-wrap">
                   <TelegramGlyph />
