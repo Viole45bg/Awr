@@ -5,22 +5,24 @@ import crypto from "crypto";
 const sql = neon(process.env.DATABASE_URL);
 
 // Ensures the table exists and has all required columns.
-// No seed row — the first successful "update" creates row 1
-// with whatever the admin actually enters.
 async function ensureTable() {
   await sql`
     CREATE TABLE IF NOT EXISTS site_links (
       id INT PRIMARY KEY DEFAULT 1,
       whatsapp_url TEXT NOT NULL DEFAULT '',
       telegram_url TEXT NOT NULL DEFAULT '',
-      whatsapp_number TEXT NOT NULL DEFAULT '',
-      telegram_username TEXT NOT NULL DEFAULT ''
+      livechat_url TEXT NOT NULL DEFAULT '',
+      agent_name TEXT NOT NULL DEFAULT ''
     )
   `;
 
   // Backfill: add columns if the table was created before this update
-  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS whatsapp_number TEXT NOT NULL DEFAULT ''`;
-  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS telegram_username TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS livechat_url TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS agent_name TEXT NOT NULL DEFAULT ''`;
+  
+  // Clean up unused columns from previous versions
+  await sql`ALTER TABLE site_links DROP COLUMN IF EXISTS whatsapp_number`;
+  await sql`ALTER TABLE site_links DROP COLUMN IF EXISTS telegram_username`;
 }
 
 function isAuthed(req) {
@@ -71,9 +73,8 @@ function isValidUrl(value) {
   }
 }
 
-// Basic sanity check for the number/username fields: just plain text,
-// no URLs/scripts, reasonably short. Adjust the regex if you want to
-// enforce a stricter phone/username format.
+// Basic sanity check for plain text fields (like agent name): 
+// just plain text, no scripts, reasonably short.
 function isValidHandle(value) {
   if (typeof value !== "string") return false;
   if (value.length > 100) return false;
@@ -85,15 +86,15 @@ export async function GET() {
   try {
     await ensureTable();
     const rows = await sql`
-      SELECT whatsapp_url, telegram_url, whatsapp_number, telegram_username
+      SELECT whatsapp_url, telegram_url, livechat_url, agent_name
       FROM site_links WHERE id = 1
     `;
     const row = rows[0];
     return NextResponse.json({
       whatsapp: row?.whatsapp_url ?? "",
       telegram: row?.telegram_url ?? "",
-      whatsappNumber: row?.whatsapp_number ?? "",
-      telegramUsername: row?.telegram_username ?? "",
+      livechat: row?.livechat_url ?? "",
+      agentName: row?.agent_name ?? "",
     });
   } catch (err) {
     console.error("GET /site-links failed:", err);
@@ -146,34 +147,34 @@ export async function POST(req) {
 
     const whatsapp = body.whatsapp;
     const telegram = body.telegram;
-    const whatsappNumber = body.whatsappNumber ?? body.whatsapp_number ?? "";
-    const telegramUsername = body.telegramUsername ?? body.telegram_username ?? "";
+    const livechat = body.livechat ?? body.livechat_url ?? "";
+    const agentName = body.agentName ?? body.agent_name ?? "";
 
     if (
       typeof whatsapp !== "string" ||
       typeof telegram !== "string" ||
-      typeof whatsappNumber !== "string" ||
-      typeof telegramUsername !== "string"
+      typeof livechat !== "string" ||
+      typeof agentName !== "string"
     ) {
       return NextResponse.json({ success: false, error: "Invalid payload" }, { status: 400 });
     }
-    if (!isValidUrl(whatsapp) || !isValidUrl(telegram)) {
+    if (!isValidUrl(whatsapp) || !isValidUrl(telegram) || !isValidUrl(livechat)) {
       return NextResponse.json({ success: false, error: "Invalid URL" }, { status: 400 });
     }
-    if (!isValidHandle(whatsappNumber) || !isValidHandle(telegramUsername)) {
-      return NextResponse.json({ success: false, error: "Invalid contact field" }, { status: 400 });
+    if (!isValidHandle(agentName)) {
+      return NextResponse.json({ success: false, error: "Invalid agent name" }, { status: 400 });
     }
 
     try {
       await ensureTable();
       await sql`
-        INSERT INTO site_links (id, whatsapp_url, telegram_url, whatsapp_number, telegram_username)
-        VALUES (1, ${whatsapp}, ${telegram}, ${whatsappNumber}, ${telegramUsername})
+        INSERT INTO site_links (id, whatsapp_url, telegram_url, livechat_url, agent_name)
+        VALUES (1, ${whatsapp}, ${telegram}, ${livechat}, ${agentName})
         ON CONFLICT (id) DO UPDATE
         SET whatsapp_url = EXCLUDED.whatsapp_url,
             telegram_url = EXCLUDED.telegram_url,
-            whatsapp_number = EXCLUDED.whatsapp_number,
-            telegram_username = EXCLUDED.telegram_username
+            livechat_url = EXCLUDED.livechat_url,
+            agent_name = EXCLUDED.agent_name
       `;
       return NextResponse.json({ success: true });
     } catch (err) {
