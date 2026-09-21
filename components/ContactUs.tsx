@@ -1,25 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
-import type { CSSProperties } from "react";
-
-const EXPERIENCES = [
-  { value: "", label: "Select your experience level" },
-  { value: "beginner", label: "Beginner" },
-  { value: "intermediate", label: "Intermediate" },
-  { value: "experienced", label: "Experienced" },
-];
-
-function buildUrl(base: string, experience: string) {
-  if (!experience) return base;
-  try {
-    const url = new URL(base);
-    url.searchParams.set("experience", experience);
-    return url.toString();
-  } catch {
-    return base;
-  }
-}
+import { useState, useEffect } from "react";
 
 const WhatsAppGlyph = () => (
   <svg viewBox="0 0 24 24" className="pill-glyph" aria-hidden="true">
@@ -46,109 +27,6 @@ const PillArrow = () => (
   </svg>
 );
 
-function Dropdown({
-  id,
-  label,
-  value,
-  options,
-  accent,
-  onChange,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  options: { value: string; label: string }[];
-  accent: "exp" | "mkt";
-  onChange: (value: string) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const current = options.find((o) => o.value === value);
-  const accentColor = accent === "exp" ? "#FF7A00" : "#FF1F6B";
-
-  return (
-    <div className={`dropdown${open ? " open" : ""}`}>
-      {open && (
-        <div
-          className="dropdown-backdrop"
-          aria-hidden="true"
-          onClick={() => setOpen(false)}
-        />
-      )}
-
-      <button
-        type="button"
-        className="dropdown-toggle"
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") setOpen(false);
-        }}
-      >
-        <span className={`dropdown-value${current?.value ? "" : " placeholder"}`}>
-          {current?.label ?? label}
-        </span>
-        <svg
-          className="dropdown-chevron"
-          viewBox="0 0 24 24"
-          width="14"
-          height="14"
-          aria-hidden="true"
-        >
-          <path
-            d="M6 9l6 6 6-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
-
-      {open && (
-        <div className="dropdown-menu" role="listbox">
-          {options
-            .filter((o) => o.value !== "")
-            .map((o) => {
-              const selected = o.value === value;
-              return (
-                <button
-                  key={o.value}
-                  type="button"
-                  role="option"
-                  aria-selected={selected}
-                  className={`dropdown-option${selected ? " selected" : ""}`}
-                  style={{ "--accent": accentColor } as CSSProperties}
-                  onClick={() => {
-                    onChange(o.value);
-                    setOpen(false);
-                  }}
-                >
-                  <span>{o.label}</span>
-                  <span className="dropdown-check" aria-hidden="true">
-                    {selected && (
-                      <svg viewBox="0 0 24 24" width="10" height="10">
-                        <path
-                          d="M4 12.5l5 5L20 6.5"
-                          fill="none"
-                          stroke="#fff"
-                          strokeWidth="3.2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </span>
-                </button>
-              );
-            })}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function ContactUs({
   whatsappUrl,
   telegramUrl,
@@ -157,8 +35,12 @@ export default function ContactUs({
   telegramUrl: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [experience, setExperience] = useState("");
-  const id = useId();
+
+  useEffect(() => {
+    const handleOpen = () => setOpen(true);
+    window.addEventListener("awr:open-contact", handleOpen);
+    return () => window.removeEventListener("awr:open-contact", handleOpen);
+  }, []);
 
   if (!open) {
     return (
@@ -184,43 +66,15 @@ export default function ContactUs({
     );
   }
 
-  const ready = Boolean(experience);
-
   return (
     <div className="contact-flow">
       <div className="contact-panel revealed">
-        <div className="selector-row">
-          {/* Experience is Step 1 */}
-          <div className="selector-block">
-            <span className="selector-title" id={`${id}-exp-label`}>
-              <strong>Step 1</strong> — What&apos;s your experience level?
-            </span>
-            <Dropdown
-              id={`${id}-exp`}
-              label="Select your experience level"
-              value={experience}
-              options={EXPERIENCES}
-              accent="exp"
-              onChange={setExperience}
-            />
-          </div>
-        </div>
-
         <div className="channels">
-          <span className="flow-summary">
-            {ready ? (
-              <>
-                <b>{EXPERIENCES.find((e) => e.value === experience)?.label}</b>
-                {" "}— reach the team on:
-              </>
-            ) : (
-              "Select your experience to personalize the chat link."
-            )}
-          </span>
+          <span className="flow-summary">Reach the team on:</span>
           <div className="contact-pills">
             <a
               className="contact-pill whatsapp"
-              href={buildUrl(whatsappUrl, experience)}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -232,7 +86,7 @@ export default function ContactUs({
             </a>
             <a
               className="contact-pill telegram"
-              href={buildUrl(telegramUrl, experience)}
+              href={telegramUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -245,15 +99,11 @@ export default function ContactUs({
           </div>
         </div>
 
-        {/* Close button at the bottom */}
         <button
           type="button"
           className="contact-close"
           aria-label="Close contact options"
-          onClick={() => {
-            setOpen(false);
-            setExperience("");
-          }}
+          onClick={() => setOpen(false)}
         >
           &times;
         </button>
