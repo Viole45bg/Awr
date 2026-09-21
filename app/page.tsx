@@ -220,7 +220,7 @@ export default async function Home() {
             .hero-market-insights {
               position: relative;
               padding: 110px 24px 80px;
-              text-align: center;
+              text-align: left;
               z-index: 1;
             }
             .hero-inner {
@@ -232,7 +232,7 @@ export default async function Home() {
               font-weight: 300;
               margin: 0 0 18px;
               line-height: 1.1;
-              text-align: left;
+              
               letter-spacing: -0.02em;
               background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
               -webkit-background-clip: text;
