@@ -4,6 +4,8 @@ import { neon } from "@neondatabase/serverless";
 import { Montserrat } from "next/font/google";
 import Logo from "../components/Logo";
 import ContactUs from "../components/ContactUs";
+import NavCta from "../components/NavCta";
+import ExperienceSelector from "../components/ExperienceSelector";
 
 const display = Montserrat({
   subsets: ["latin"],
@@ -73,12 +75,12 @@ export default async function Home() {
               font-family: var(--font-display), system-ui, sans-serif;
               -webkit-font-smoothing: antialiased;
               position: relative;
+              /* room for the fixed bottom bar */
+              padding-bottom: 88px;
             }
 
             /* ══════════════════════════════════════════
                BACKGROUND: perspective city grid
-               Layer A: flat grid + glow + dot nodes (fixed, full page)
-               Layer B: perspective floor grid (fixed, bottom 65vh)
             ══════════════════════════════════════════ */
 
             body::before {
@@ -169,10 +171,33 @@ export default async function Home() {
               transition: background 0.2s, transform 0.15s;
               white-space: nowrap;
               cursor: pointer;
+              border: none;
             }
             .nav-cta:hover { background: var(--blue-glow); transform: translateY(-1px); }
 
-            /* ── Hero: Market Insights (New) ── */
+            /* ── Bottom CTA bar ── */
+            .bottom-cta-bar {
+              position: fixed;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              z-index: 40;
+              display: flex;
+              justify-content: center;
+              padding: 14px 24px 20px;
+              background: linear-gradient(to top, rgba(5,13,26,0.97) 55%, transparent 100%);
+              backdrop-filter: blur(6px);
+              pointer-events: none;
+            }
+            .bottom-cta-bar > * { pointer-events: auto; }
+            /* Override font size for the bottom bar's NavCta to be more prominent */
+            .bottom-cta-bar .nav-cta {
+              font-size: 11px;
+              padding: 14px 36px;
+              box-shadow: 0 8px 28px rgba(26,110,245,0.45);
+            }
+
+            /* ── Hero: Market Insights ── */
             .hero-market-insights {
               position: relative;
               padding: 110px 24px 80px;
@@ -198,11 +223,24 @@ export default async function Home() {
               line-height: 1.7;
               color: var(--offwhite);
               max-width: 760px;
-              margin: 0 auto 56px;
+              margin: 0 auto 40px;
+            }
+            .hero-experience {
+              display: flex;
+              justify-content: center;
+              margin-bottom: 32px;
             }
             .hero-contact {
               display: flex;
               justify-content: center;
+            }
+
+            /* ── ExperienceSelector ── */
+            .experience-selector {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
             }
 
             /* ── Original Hero ── */
@@ -220,7 +258,6 @@ export default async function Home() {
               background: transparent;
               position: relative; overflow: hidden;
             }
-
             .body-inner {
               position: relative; z-index: 1;
               width: min(720px, 100%); margin: 0 auto; text-align: center;
@@ -259,7 +296,6 @@ export default async function Home() {
 
             /* ════════════════════════════════════════
                ContactUs component styles
-               All classes used by ContactUs.tsx
             ════════════════════════════════════════ */
 
             .contact-flow {
@@ -267,8 +303,6 @@ export default async function Home() {
               justify-content: center;
               margin-top: 8px;
             }
-
-            /* Primary CTA button (closed state) */
             .contact-us-btn {
               display: inline-flex;
               align-items: center;
@@ -291,8 +325,6 @@ export default async function Home() {
               background: var(--blue-glow);
               box-shadow: 0 14px 38px rgba(26,110,245,0.50);
             }
-
-            /* Expanded panel */
             .contact-panel {
               display: flex;
               flex-direction: column;
@@ -300,21 +332,18 @@ export default async function Home() {
               gap: 22px;
               width: 100%;
             }
-
             .selector-row {
               display: flex;
               flex-wrap: wrap;
               justify-content: center;
               gap: 18px;
             }
-
             .selector-block {
               display: flex;
               flex-direction: column;
               align-items: center;
               gap: 10px;
             }
-
             .selector-title {
               font-size: 11px;
               font-weight: 700;
@@ -323,19 +352,16 @@ export default async function Home() {
               color: var(--muted);
               font-family: var(--font-display), sans-serif;
             }
-
             .selector-title strong { color: var(--white); }
 
-            /* Dropdown toggle */
+            /* Dropdown */
             .dropdown { position: relative; }
-
             .dropdown-backdrop {
               position: fixed;
               inset: 0;
               z-index: 25;
               background: transparent;
             }
-
             .dropdown-toggle {
               appearance: none;
               -webkit-appearance: none;
@@ -361,16 +387,13 @@ export default async function Home() {
               border-color: rgba(77,159,255,0.5);
               background: rgba(255,255,255,0.09);
             }
-
             .dropdown-value.placeholder { color: var(--muted); }
-
             .dropdown-chevron {
               flex-shrink: 0;
               color: var(--muted);
               transition: transform 0.2s;
             }
             .dropdown.open .dropdown-chevron { transform: rotate(180deg); }
-
             .dropdown-menu {
               position: absolute;
               top: calc(100% + 8px);
@@ -384,7 +407,6 @@ export default async function Home() {
               box-shadow: 0 16px 40px rgba(0,0,0,0.5);
               padding: 8px;
             }
-
             .dropdown-option {
               display: flex;
               align-items: center;
@@ -405,7 +427,6 @@ export default async function Home() {
             }
             .dropdown-option:hover { background: rgba(77,159,255,0.12); }
             .dropdown-option.selected { color: var(--blue-glow); }
-
             .dropdown-check {
               width: 22px; height: 22px;
               flex-shrink: 0;
@@ -416,8 +437,8 @@ export default async function Home() {
               transition: background 0.15s, border-color 0.15s;
             }
             .dropdown-option.selected .dropdown-check {
-              background: var(--accent, var(--blue));
-              border-color: var(--accent, var(--blue));
+              background: var(--blue);
+              border-color: var(--blue);
             }
 
             /* Channels / pills */
@@ -427,14 +448,12 @@ export default async function Home() {
               align-items: center;
               gap: 14px;
             }
-
             .flow-summary {
               font-size: 13px;
               font-weight: 600;
               color: var(--muted);
             }
             .flow-summary b { color: var(--white); }
-
             .contact-pills {
               display: flex;
               justify-content: center;
@@ -442,7 +461,6 @@ export default async function Home() {
               flex-wrap: nowrap;
               gap: 12px;
             }
-
             .contact-pill {
               display: inline-flex;
               align-items: center;
@@ -456,7 +474,6 @@ export default async function Home() {
               transition: transform 0.2s, box-shadow 0.2s;
             }
             .contact-pill:hover { transform: translateY(-2px); }
-
             .contact-pill.whatsapp {
               background: var(--whatsapp);
               color: #fff;
@@ -467,7 +484,6 @@ export default async function Home() {
               color: #fff;
               box-shadow: 0 8px 24px rgba(34,158,217,0.30);
             }
-
             .pill-icon-wrap {
               width: 34px; height: 34px;
               flex-shrink: 0;
@@ -476,14 +492,9 @@ export default async function Home() {
               display: grid;
               place-items: center;
             }
-
             .pill-glyph { width: 18px; height: 18px; fill: #fff; display: block; }
-
             .pill-arrow { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.85; }
-
             .pill-label { white-space: nowrap; }
-
-            /* Close button */
             .contact-close {
               align-self: center;
               margin-top: 4px;
@@ -518,7 +529,8 @@ export default async function Home() {
             /* ── Floating Chat Action Button ── */
             .floating-chat {
               position: fixed;
-              bottom: 32px;
+              /* sit above the bottom bar (88px) + gap */
+              bottom: 104px;
               right: 32px;
               z-index: 50;
               width: 64px;
@@ -543,9 +555,9 @@ export default async function Home() {
               fill: #fff;
             }
             @keyframes pulseChat {
-              0% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0.7); }
-              70% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 15px rgba(37, 211, 102, 0); }
-              100% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0); }
+              0%   { box-shadow: 0 10px 30px rgba(37,211,102,0.4), 0 0 0 0   rgba(37,211,102,0.7); }
+              70%  { box-shadow: 0 10px 30px rgba(37,211,102,0.4), 0 0 0 15px rgba(37,211,102,0); }
+              100% { box-shadow: 0 10px 30px rgba(37,211,102,0.4), 0 0 0 0   rgba(37,211,102,0); }
             }
 
             /* ── Footer ── */
@@ -568,10 +580,12 @@ export default async function Home() {
 
               .hero-market-insights { padding: 72px 18px 48px; }
               .hero-title { font-size: 36px; }
-              .hero-text { font-size: 16px; margin-bottom: 40px; }
+              .hero-text { font-size: 16px; margin-bottom: 32px; }
 
-              .floating-chat { bottom: 20px; right: 20px; width: 56px; height: 56px; }
+              .floating-chat { bottom: 96px; right: 16px; width: 56px; height: 56px; }
               .floating-chat svg { width: 28px; height: 28px; }
+
+              .bottom-cta-bar { padding: 12px 16px 18px; }
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -593,17 +607,23 @@ export default async function Home() {
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
-            <a href="#contact" className="nav-cta">Connect with Us</a>
+            {/* NavCta scrolls to #contact and fires the open event */}
+            <NavCta />
           </div>
         </header>
 
-        {/* ── New Hero: Market Insights ── */}
+        {/* ── Hero: Market Insights ── */}
         <section className="hero-market-insights" id="contact">
           <div className="hero-inner fade-up">
-            <h1 className="hero-title">GROW WEALTH <br/> CREATE FREEDOM </h1>
+            <h1 className="hero-title">GROW WEALTH <br/> CREATE FREEDOM</h1>
             <p className="hero-text">
               Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
             </p>
+
+            {/* Experience selector sits between the body copy and the channel pills */}
+            <div className="hero-experience">
+              <ExperienceSelector />
+            </div>
 
             <div className="hero-contact">
               <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
@@ -611,7 +631,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── Original Hero (Banner) moved below ── */}
+        {/* ── Original Hero (Banner) ── */}
         <section className="hero">
           <Image
             src="/banner.jpg"
@@ -625,7 +645,7 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ── Remaining Features ── */}
+        {/* ── Features ── */}
         <section className="body-section">
           <div className="body-inner fade-up">
             <div className="eyebrow">Why Join Us</div>
@@ -652,7 +672,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── Ticker (moved to bottom, above footer) ── */}
+        {/* ── Ticker ── */}
         <div className="ticker" role="status" aria-label="Now accepting new members">
           <div className="ticker-track">
             {[0, 1].map((copy) => (
@@ -675,7 +695,7 @@ export default async function Home() {
           </p>
         </footer>
 
-        {/* ── Floating Chat Action Button ── */}
+        {/* ── Floating WhatsApp button ── */}
         <a
           href={WHATSAPP_URL}
           target="_blank"
@@ -687,6 +707,11 @@ export default async function Home() {
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
           </svg>
         </a>
+
+        {/* ── Bottom CTA bar (fixed, full-width) ── */}
+        <div className="bottom-cta-bar">
+          <NavCta />
+        </div>
       </div>
     </main>
   );
