@@ -232,6 +232,7 @@ export default async function Home() {
               font-weight: 300;
               margin: 0 0 18px;
               line-height: 1.1;
+              text-align: left;
               letter-spacing: -0.02em;
               background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
               -webkit-background-clip: text;
