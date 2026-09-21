@@ -228,9 +228,9 @@ export default async function Home() {
               margin: 0 auto;
             }
             .hero-title {
-              font-size: 15px;
+              font-size: 13px;
               font-weight: 300;
-              margin: 0 0 24px;
+              margin: 0 0 18px;
               line-height: 1.1;
               letter-spacing: -0.02em;
               background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
