@@ -10,7 +10,13 @@ export default function AdminPage() {
   const [whatsapp, setWhatsapp] = useState("");
   const [telegram, setTelegram] = useState("");
   const [livechat, setLivechat] = useState("");
-  const [agentName, setAgentName] = useState(""); // New field
+  const [agentName, setAgentName] = useState("");
+  
+  // Visibility toggles
+  const [whatsappEnabled, setWhatsappEnabled] = useState(true);
+  const [telegramEnabled, setTelegramEnabled] = useState(true);
+  const [livechatEnabled, setLivechatEnabled] = useState(true);
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
@@ -23,7 +29,13 @@ export default function AdminPage() {
         setWhatsapp(data.whatsapp || "");
         setTelegram(data.telegram || "");
         setLivechat(data.livechat || "");
-        setAgentName(data.agentName || ""); // Load new field
+        setAgentName(data.agentName || "");
+        
+        // Load visibility states (default to true if not yet present in DB)
+        setWhatsappEnabled(data.whatsappEnabled !== false);
+        setTelegramEnabled(data.telegramEnabled !== false);
+        setLivechatEnabled(data.livechatEnabled !== false);
+        
         setLoading(false);
       });
   }, [authed]);
@@ -56,7 +68,10 @@ export default function AdminPage() {
         whatsapp,
         telegram,
         livechat,
-        agentName, // Send new field to API
+        agentName,
+        whatsappEnabled,
+        telegramEnabled,
+        livechatEnabled,
       }),
     });
     const data = await res.json();
@@ -76,6 +91,45 @@ export default function AdminPage() {
   const whatsappColor = "#25D366";
   const telegramColor = "#229ED9";
   const livechatColor = "#2dd4bf";
+
+  // --- Custom Toggle Switch Component ---
+  const ToggleSwitch = ({
+    checked,
+    onChange,
+    color,
+  }: {
+    checked: boolean;
+    onChange: (val: boolean) => void;
+    color: string;
+  }) => (
+    <div
+      onClick={() => onChange(!checked)}
+      style={{
+        width: 36,
+        height: 20,
+        borderRadius: 10,
+        background: checked ? color : line,
+        position: "relative",
+        cursor: "pointer",
+        transition: "background 0.2s ease",
+        flexShrink: 0,
+      }}
+    >
+      <div
+        style={{
+          width: 14,
+          height: 14,
+          borderRadius: "50%",
+          background: "white",
+          position: "absolute",
+          top: 3,
+          left: checked ? 19 : 3,
+          transition: "left 0.2s ease",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
+        }}
+      />
+    </div>
+  );
 
   // --- Login Screen ---
   if (!authed) {
@@ -337,7 +391,7 @@ export default function AdminPage() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 6,
+                  justifyContent: "space-between",
                   color: textMuted,
                   fontSize: 11,
                   fontWeight: 700,
@@ -346,15 +400,22 @@ export default function AdminPage() {
                   marginBottom: 6,
                 }}
               >
-                <span
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: whatsappColor,
-                  }}
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      background: whatsappColor,
+                    }}
+                  />
+                  WhatsApp Group URL
+                </div>
+                <ToggleSwitch
+                  checked={whatsappEnabled}
+                  onChange={setWhatsappEnabled}
+                  color={whatsappColor}
                 />
-                WhatsApp Group URL
               </label>
               <input
                 type="text"
@@ -371,6 +432,8 @@ export default function AdminPage() {
                   fontSize: 14,
                   outline: "none",
                   boxSizing: "border-box",
+                  opacity: whatsappEnabled ? 1 : 0.5,
+                  transition: "opacity 0.2s ease",
                 }}
               />
             </div>
@@ -381,7 +444,7 @@ export default function AdminPage() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 6,
+                  justifyContent: "space-between",
                   color: textMuted,
                   fontSize: 11,
                   fontWeight: 700,
@@ -390,15 +453,22 @@ export default function AdminPage() {
                   marginBottom: 6,
                 }}
               >
-                <span
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: telegramColor,
-                  }}
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      background: telegramColor,
+                    }}
+                  />
+                  Telegram Channel URL
+                </div>
+                <ToggleSwitch
+                  checked={telegramEnabled}
+                  onChange={setTelegramEnabled}
+                  color={telegramColor}
                 />
-                Telegram Channel URL
               </label>
               <input
                 type="text"
@@ -415,6 +485,8 @@ export default function AdminPage() {
                   fontSize: 14,
                   outline: "none",
                   boxSizing: "border-box",
+                  opacity: telegramEnabled ? 1 : 0.5,
+                  transition: "opacity 0.2s ease",
                 }}
               />
             </div>
@@ -425,7 +497,7 @@ export default function AdminPage() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 6,
+                  justifyContent: "space-between",
                   color: textMuted,
                   fontSize: 11,
                   fontWeight: 700,
@@ -434,15 +506,22 @@ export default function AdminPage() {
                   marginBottom: 6,
                 }}
               >
-                <span
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: livechatColor,
-                  }}
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      background: livechatColor,
+                    }}
+                  />
+                  Live Chat URL
+                </div>
+                <ToggleSwitch
+                  checked={livechatEnabled}
+                  onChange={setLivechatEnabled}
+                  color={livechatColor}
                 />
-                Live Chat URL
               </label>
               <input
                 type="text"
@@ -459,6 +538,8 @@ export default function AdminPage() {
                   fontSize: 14,
                   outline: "none",
                   boxSizing: "border-box",
+                  opacity: livechatEnabled ? 1 : 0.5,
+                  transition: "opacity 0.2s ease",
                 }}
               />
             </div>
