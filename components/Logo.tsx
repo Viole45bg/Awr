@@ -1,99 +1,44 @@
 import React from "react";
 
 interface AWRLogoProps {
-  /** Width of the logo in pixels. Height scales proportionally. */
   width?: number;
-  /** Override text color (default: white) */
   color?: string;
 }
 
-export default function AWRLogo({ width = 320, color = "#ffffff" }: AWRLogoProps) {
-  const scale = width / 320;
-  const height = Math.round(80 * scale);
+export default function AWRLogo({ width = 260, color = "#ffffff" }: AWRLogoProps) {
+  const scale = width / 260;
+  const height = Math.round(70 * scale);
 
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 320 80"
+      viewBox="0 0 260 70"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Alpha Wealth & Retirement Club"
     >
-      {/* ── Monogram: A W R ── */}
       {/* A */}
-      <polygon
-        points="0,60 14,10 28,60"
-        fill="none"
-        stroke={color}
-        strokeWidth="5"
-        strokeLinejoin="round"
-      />
-      <line x1="6" y1="42" x2="22" y2="42" stroke={color} strokeWidth="4" />
+      <path d="M4 56 L14 14 L24 56" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="8.5" y1="40" x2="19.5" y2="40" stroke={color} strokeWidth="5" strokeLinecap="round" />
 
       {/* W */}
-      <polyline
-        points="28,10 36,52 44,28 52,52 60,10"
-        fill="none"
-        stroke={color}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
+      <path d="M26 14 L33 48 L40 30 L47 48 L54 14" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
 
-      {/* R */}
-      <polyline
-        points="60,60 60,10 74,10"
-        fill="none"
-        stroke={color}
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-      <path
-        d="M60,10 Q82,10 82,27 Q82,40 60,40"
-        fill="none"
-        stroke={color}
-        strokeWidth="5"
-        strokeLinejoin="round"
-      />
-      <line x1="68" y1="40" x2="84" y2="60" stroke={color} strokeWidth="5" strokeLinecap="round" />
+      {/* R — simplified bowl for small sizes */}
+      <path d="M58 56 L58 14 L66 14 Q76 14 76 24 Q76 33 66 33 L58 33" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="69" y1="33" x2="80" y2="56" stroke={color} strokeWidth="7" strokeLinecap="round" />
 
-      {/* ── Wordmark ── */}
-      <text
-        x="96"
-        y="34"
-        fontFamily="'Arial Black', 'Arial Bold', Arial, sans-serif"
-        fontWeight="900"
-        fontSize="22"
-        fill={color}
-        letterSpacing="0.5"
-      >
+      {/* Wordmark */}
+      <text x="92" y="28" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="15" fill={color} letterSpacing="0.5">
         ALPHA WEALTH
       </text>
-      <text
-        x="96"
-        y="54"
-        fontFamily="'Arial Black', 'Arial Bold', Arial, sans-serif"
-        fontWeight="900"
-        fontSize="22"
-        fill={color}
-        letterSpacing="0.5"
-      >
+      <text x="92" y="45" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="15" fill={color} letterSpacing="0.5">
         &amp; RETIREMENT CLUB
       </text>
 
-      {/* ── Tagline ── */}
-      <text
-        x="96"
-        y="68"
-        fontFamily="Arial, sans-serif"
-        fontWeight="400"
-        fontSize="9"
-        fill={color}
-        letterSpacing="2.5"
-        opacity="0.85"
-      >
+      {/* Tagline */}
+      <text x="92" y="59" fontFamily="Arial, sans-serif" fontWeight="400" fontSize="7" fill={color} letterSpacing="2" opacity="0.9">
         INCOME · GROWTH · FREEDOM
       </text>
     </svg>
