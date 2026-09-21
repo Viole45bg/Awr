@@ -176,7 +176,7 @@ export default async function Home() {
             .hero-market-insights {
               position: relative;
               padding: 110px 24px 80px;
-              text-align: center;
+              text-align: left;
               z-index: 1;
             }
             .hero-inner {
