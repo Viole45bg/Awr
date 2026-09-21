@@ -5,18 +5,18 @@ interface AWRLogoProps {
   color?: string;
 }
 
-export default function AWRLogo({ width = 260, color = "#ffffff" }: AWRLogoProps) {
-  const scale = width / 260;
+export default function AWRLogo({ width = 200, color = "#ffffff" }: AWRLogoProps) {
+  const scale = width / 200;
   const height = Math.round(70 * scale);
 
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 260 70"
+      viewBox="0 0 200 70"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="Alpha Wealth & Retirement Club"
+      aria-label="AWR Team"
     >
       {/* A */}
       <path d="M4 56 L14 14 L24 56" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
@@ -30,14 +30,8 @@ export default function AWRLogo({ width = 260, color = "#ffffff" }: AWRLogoProps
       <line x1="69" y1="33" x2="80" y2="56" stroke={color} strokeWidth="7" strokeLinecap="round" />
 
       {/* Wordmark */}
-      <text x="92" y="28" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="20" fill={color} letterSpacing="0.5">
-        Team
-      </text>
-      
-
-      {/* Tagline */}
-      <text x="92" y="59" fontFamily="Arial, sans-serif" fontWeight="400" fontSize="7" fill={color} letterSpacing="2" opacity="0.9">
-        INCOME · GROWTH · FREEDOM
+      <text x="92" y="45" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="30" fill={color} letterSpacing="1">
+        TEAM
       </text>
     </svg>
   );
