@@ -593,7 +593,7 @@ export default async function Home() {
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
-            <a href="#contact" className="nav-cta">Join Us</a>
+            <a href="#contact" className="nav-cta">Connect with Us</a>
           </div>
         </header>
 
