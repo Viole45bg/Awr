@@ -637,50 +637,53 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ── Ticker (above Experience Selector) ── */}
-        <div className="ticker" role="status" aria-label="Now accepting new members">
-          <div className="ticker-track">
-            {[0, 1].map((copy) => (
-              <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <span className="ticker-item" key={i}>
-                    Now accepting new members
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        
 
         {/* ── Features & Experience ── */}
-        <section className="body-section">
-          <div className="body-inner fade-up">
-            <div className="eyebrow">Why Join Us</div>
-            <div className="features features-grid-2">
-              <div className="feature">
-                <div className="feature-icon">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2a5 5 0 110 10A5 5 0 0112 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z" />
-                  </svg>
-                </div>
-                <h3>Education</h3>
-                <p>Resources that build real knowledge — from fundamentals to advanced strategy.</p>
-              </div>
-              <div className="feature">
-                <div className="feature-icon">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                  </svg>
-                </div>
-                <h3>Trading Guidance</h3>
-                <p>Step-by-step support so every trade decision is informed and confident.</p>
-              </div>
-            </div>
+<section className="body-section">
+  <div className="body-inner fade-up">
+    <div className="eyebrow">Why Join Us</div>
+    <div className="features features-grid-2">
+      <div className="feature">
+        <div className="feature-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2a5 5 0 110 10A5 5 0 0112 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z" />
+          </svg>
+        </div>
+        <h3>Education</h3>
+        <p>Resources that build real knowledge — from fundamentals to advanced strategy.</p>
+      </div>
+      <div className="feature">
+        <div className="feature-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+          </svg>
+        </div>
+        <h3>Trading Guidance</h3>
+        <p>Step-by-step support so every trade decision is informed and confident.</p>
+      </div>
+    </div>
 
-            <div className="eyebrow" style={{ marginTop: "64px" }}>Select Your Experience</div>
-            <ExperienceSelector />
+    {/* ── Ticker (between Trading Guidance and Experience Selector) ── */}
+    <div className="ticker" role="status" aria-label="Now accepting new members">
+      <div className="ticker-track">
+        {[0, 1].map((copy) => (
+          <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span className="ticker-item" key={i}>
+                Now accepting new members
+              </span>
+            ))}
           </div>
-        </section>
+        ))}
+      </div>
+    </div>
+
+    <div className="eyebrow">Select Your Experience</div>
+    <ExperienceSelector />
+  </div>
+</section>
+
 
         {/* ── Bottom CTA bar ── */}
         <div className="bottom-cta-bar">
