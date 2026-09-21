@@ -700,7 +700,7 @@ export default async function Home() {
             © {new Date().getFullYear()} AWR — Alpha Wealth &amp; Retirement Club. All rights reserved.
           </p>
         </footer>
-
+</div>
         
     </main>
   );
