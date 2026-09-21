@@ -272,11 +272,13 @@ export default async function Home() {
             }
 
             /* ── Body section ── */
-            .body-section {
-              padding: 64px 24px 88px;
-              background: transparent;
-              position: relative; overflow: hidden;
-            }
+.body-section {
+  padding: 64px 24px 88px;
+  background: transparent;
+  position: relative;
+  overflow: visible;  /* was: hidden — this was clipping the open dropdown at the section edge */
+  z-index: 2;         /* lifts the section (and its open menu) above the ticker / CTA bar / footer, which sit at z-index 1 */
+}
             .body-inner {
               position: relative; z-index: 1;
               width: min(720px, 100%); margin: 0 auto; text-align: center;
