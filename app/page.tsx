@@ -488,7 +488,7 @@ export default async function Home() {
               align-items: center;
               gap: 12px;
               padding: 13px 22px 13px 12px;
-              border-radius: 16px;
+              border-radius: 23px;
               text-decoration: none;
               font-size: 15px;
               font-weight: 700;
