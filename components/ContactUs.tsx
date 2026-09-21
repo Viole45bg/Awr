@@ -60,9 +60,9 @@ export default function ContactUs({
   // Only applied to the lone pill: wider + vertically roomier
   const singlePillStyle: CSSProperties | undefined = isSingle
     ? {
-        minWidth: 280,
+        minWidth: 200,
         justifyContent: "center",
-        padding: "15px 28px",
+        padding: "10px 18px",
       }
     : undefined;
 
