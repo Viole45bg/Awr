@@ -64,9 +64,9 @@ export default function AdminPage() {
     setSaveMessage(data.success ? "Saved!" : data.error || "Failed to save");
   }
 
-  const navy = "#111827";
+  const navy = "#050d1a";
   const navyLight = "#1a2234";
-  const gold = "#34d399";
+  const gold = "#1a6ef5";
   const goldLight = "#6ee7b7";
   const text = "#e5e7eb";
   const textMuted = "#9ca3af";
