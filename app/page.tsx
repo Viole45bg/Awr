@@ -163,7 +163,7 @@ export default async function Home() {
             .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-decoration: none; }
             .brand-sub { font-size: 9px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); }
             .nav-cta {
-              font-size: 12px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase;
+              font-size: 7px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase;
               color: #fff; background: var(--blue);
               border-radius: 100px; padding: 12px 28px;
               transition: background 0.2s, transform 0.15s;
