@@ -119,7 +119,7 @@ export default function AdminPage() {
                 fontWeight: 700,
               }}
             >
-              AWR
+              A
             </div>
             <h1
               style={{
@@ -133,7 +133,7 @@ export default function AdminPage() {
               Admin Portal
             </h1>
             <p style={{ color: textMuted, fontSize: 13, margin: 0 }}>
-              ALPHA WEALTH 
+              AlphaWealthRetirement
             </p>
           </div>
 
