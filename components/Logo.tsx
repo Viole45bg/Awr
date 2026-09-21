@@ -30,10 +30,10 @@ export default function AWRLogo({ width = 260, color = "#ffffff" }: AWRLogoProps
       <line x1="69" y1="33" x2="80" y2="56" stroke={color} strokeWidth="7" strokeLinecap="round" />
 
       {/* Wordmark */}
-      <text x="92" y="28" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="15" fill={color} letterSpacing="0.5">
+      <text x="92" y="28" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="25" fill={color} letterSpacing="0.5">
         ALPHA WEALTH
       </text>
-      <text x="92" y="45" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="15" fill={color} letterSpacing="0.5">
+      <text x="92" y="45" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="25" fill={color} letterSpacing="0.5">
         &amp; RETIREMENT CLUB
       </text>
 
