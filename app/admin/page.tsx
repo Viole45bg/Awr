@@ -119,7 +119,7 @@ export default function AdminPage() {
                 fontWeight: 700,
               }}
             >
-              S
+              AWR
             </div>
             <h1
               style={{
