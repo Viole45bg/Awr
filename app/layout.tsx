@@ -15,48 +15,51 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.connectwrfnteam.com"),
-  title: "Wealth Rise & Freedom Network WRFN Team — Build Wealth. Retire Wisely. Live Free.",
+  metadataBase: new URL("https://www.connectwithawrteam.com"),
+  title: "Alpha Wealth & Retirement Club AWR — Grow Wealth. Create Freedom.",
   description:
-    "Join Wealth Rise & Freedom Network to explore strategies, ideas, and tips for your financial journey — retiring wisely, building a prosperous future, and achieving early retirement.",
+    "Join Alpha Wealth & Retirement Club to build long-term financial confidence. Access market insights, educational resources, and trading guidance for wealth growth, passive income, and retirement planning.",
   keywords: [
-    "Wealth Rise & Freedom Network",
-    "WRFN",
+    "Alpha Wealth & Retirement Club",
+    "AWR",
+    "Grow Wealth",
+    "Create Freedom",
     "financial freedom",
-    "early retirement",
     "wealth building",
-    "compound growth",
     "retirement planning",
+    "passive income",
     "investment strategies",
-    "financial journey",
-    "prosperous future",
+    "trading guidance",
+    "market insights",
+    "financial education",
+    "income growth freedom",
   ],
-  authors: [{ name: "Wealth Rise & Freedom Network" }],
+  authors: [{ name: "Alpha Wealth & Retirement Club" }],
   other: {
     "fb:app_id": "YOUR_APP_ID_HERE",
   },
   openGraph: {
-    title: "Wealth Rise & Freedom Network WRFN Team",
+    title: "Alpha Wealth & Retirement Club AWR — Grow Wealth. Create Freedom.",
     description:
-      "Join us to explore strategies, ideas, and tips for your financial journey — retiring wisely, building a prosperous future, and achieving early retirement.",
-    url: "https://www.connectwrfnteam.com",
-    siteName: "Wealth Rise & Freedom Network",
+      "Join AWR to build long-term financial confidence. Access market insights, educational resources, and trading guidance for wealth growth, passive income, and retirement planning.",
+    url: "https://www.connectwithawrteam.com",
+    siteName: "Alpha Wealth & Retirement Club",
     type: "website",
     images: [
       {
-        url: "https://www.connectwrfnteam.com/og-image.png",
+        url: "https://www.connectwithawrteam.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Wealth Rise & Freedom Network — Strategies, Ideas & Tips for Your Financial Journey",
+        alt: "Alpha Wealth & Retirement Club — Grow Wealth. Create Freedom. Income-Growth-Freedom",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wealth Rise & Freedom Network WRFN Team",
+    title: "Alpha Wealth & Retirement Club AWR",
     description:
-      "Join us to explore strategies, ideas, and tips for your financial journey — retiring wisely, building a prosperous future, and achieving early retirement.",
-    images: ["https://www.connectwrfnteam.com/og-image.png"],
+      "Join AWR to build long-term financial confidence. Access market insights, educational resources, and trading guidance for wealth growth, passive income, and retirement planning.",
+    images: ["https://www.connectwithawrteam.com/og-image.png"],
   },
 };
 
