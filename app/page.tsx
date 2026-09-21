@@ -6,7 +6,7 @@ import Logo from "../components/Logo";
 import ContactUs from "../components/ContactUs";
 import NavCta from "../components/NavCta";
 import ExperienceSelector from "../components/ExperienceSelector";
-import FloatingChat from "../components/FloatingChat";
+import LiveChatWidget from "../components/LiveChatWidget";
 
 const display = Montserrat({
   subsets: ["latin"],
@@ -47,7 +47,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const { whatsapp: WHATSAPP_URL, telegram: TELEGRAM_URL } = await getLinks();
+  const { whatsapp: WHATSAPP_URL, telegram: TELEGRAM_URL, telegramUsername } = await getLinks();
 
   return (
     <main className={display.variable}>
@@ -655,8 +655,8 @@ export default async function Home() {
           </p>
         </footer>
 
-        {/* ── Floating Chat (scroll-triggered, opens bottom sheet) ── */}
-        <FloatingChat whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
+        {/* ── Floating Chat ── */}
+        <LiveChatWidget livechatUrl={TELEGRAM_URL} agentName={telegramUsername} />
 
         {/* ── Bottom CTA bar (fixed, full-width) ── */}
         <div className="bottom-cta-bar">
