@@ -238,11 +238,11 @@ export default async function Home() {
               margin: 0 auto;
             }
             .hero-title {
-              font-size: 11px;
+              font-size: 42px;
               font-weight: 800;
               margin: 0 0 18px;
-              line-height: 1.2;
-              letter-spacing: 1px;
+              line-height: 1.1;
+              letter-spacing: -0.02em;
               background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
               -webkit-background-clip: text;
               background-clip: text;
@@ -578,6 +578,7 @@ export default async function Home() {
               .contact-pills { gap: 10px; }
 
               .hero-market-insights { padding: 72px 18px 48px; }
+              .hero-title { font-size: 30px; }
               .hero-text { font-size: 16px; margin-bottom: 32px; }
 
               .bottom-cta-bar { padding: 32px 16px 48px; }
