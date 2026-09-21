@@ -30,9 +30,13 @@ const PillArrow = () => (
 export default function ContactUs({
   whatsappUrl,
   telegramUrl,
+  whatsappEnabled = true,
+  telegramEnabled = true,
 }: {
   whatsappUrl: string;
   telegramUrl: string;
+  whatsappEnabled?: boolean;
+  telegramEnabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -41,6 +45,16 @@ export default function ContactUs({
     window.addEventListener("awr:open-contact", handleOpen);
     return () => window.removeEventListener("awr:open-contact", handleOpen);
   }, []);
+
+  // Determine which options are actually available to show
+  const showWhatsApp = whatsappEnabled && !!whatsappUrl;
+  const showTelegram = telegramEnabled && !!telegramUrl;
+  const hasAnyContact = showWhatsApp || showTelegram;
+
+  // If BOTH toggles are turned off (or URLs are missing), hide the entire component
+  if (!hasAnyContact) {
+    return null;
+  }
 
   if (!open) {
     return (
@@ -72,30 +86,34 @@ export default function ContactUs({
         <div className="channels">
           <span className="flow-summary">Reach the team on:</span>
           <div className="contact-pills">
-            <a
-              className="contact-pill whatsapp"
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="pill-icon-wrap">
-                <WhatsAppGlyph />
-              </span>
-              <span className="pill-label">WhatsApp</span>
-              <PillArrow />
-            </a>
-            <a
-              className="contact-pill telegram"
-              href={telegramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="pill-icon-wrap">
-                <TelegramGlyph />
-              </span>
-              <span className="pill-label">Telegram</span>
-              <PillArrow />
-            </a>
+            {showWhatsApp && (
+              <a
+                className="contact-pill whatsapp"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="pill-icon-wrap">
+                  <WhatsAppGlyph />
+                </span>
+                <span className="pill-label">WhatsApp</span>
+                <PillArrow />
+              </a>
+            )}
+            {showTelegram && (
+              <a
+                className="contact-pill telegram"
+                href={telegramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="pill-icon-wrap">
+                  <TelegramGlyph />
+                </span>
+                <span className="pill-label">Telegram</span>
+                <PillArrow />
+              </a>
+            )}
           </div>
         </div>
 
