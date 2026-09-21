@@ -76,7 +76,7 @@ export default async function Home() {
 
             *, *::before, *::after { box-sizing: border-box; }
             html { scroll-behavior: smooth; }
-            html, body { margin: 0; padding: 0; background: var(--navy); color: var(--white); }
+            html, body { margin: 0; padding: 0; background: var(--navy); color: var(--white); overflow-x: hidden; }
 
             body {
               font-family: var(--font-display), system-ui, sans-serif;
@@ -148,8 +148,7 @@ export default async function Home() {
               overflow: hidden;
               background: var(--blue);
               padding: 10px 0;
-              margin: 88px auto 64px;
-              border-radius: 100px;
+              margin: 88px calc(50% - 50vw) 64px;
             }
             .ticker-track { display: flex; width: max-content; animation: tickerScroll 55s linear infinite; }
             .ticker-group { display: flex; align-items: center; white-space: nowrap; }
@@ -585,7 +584,7 @@ export default async function Home() {
               .hero-text { font-size: 16px; margin-bottom: 32px; }
 
               .bottom-cta-bar { padding: 32px 16px 48px; }
-              .ticker { margin: 64px auto 48px; }
+              .ticker { margin: 64px calc(50% - 50vw) 48px; }
             }
 
             @media (prefers-reduced-motion: no-preference) {
@@ -668,22 +667,24 @@ export default async function Home() {
                 <p>Step-by-step support so every trade decision is informed and confident.</p>
               </div>
             </div>
+          </div>
 
-            {/* ── Ticker (between Trading Guidance and Experience Selector) ── */}
-            <div className="ticker" role="status" aria-label="Now accepting new members">
-              <div className="ticker-track">
-                {[0, 1].map((copy) => (
-                  <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
-                    {Array.from({ length: 8 }).map((_, i) => (
-                      <span className="ticker-item" key={i}>
-                        Now accepting new members
-                      </span>
-                    ))}
-                  </div>
-                ))}
-              </div>
+          {/* ── Ticker (full width, between Trading Guidance and Experience Selector) ── */}
+          <div className="ticker" role="status" aria-label="Now accepting new members">
+            <div className="ticker-track">
+              {[0, 1].map((copy) => (
+                <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <span className="ticker-item" key={i}>
+                      Now accepting new members
+                    </span>
+                  ))}
+                </div>
+              ))}
             </div>
+          </div>
 
+          <div className="body-inner fade-up">
             <div className="eyebrow">Select Your Experience</div>
             <ExperienceSelector />
           </div>
