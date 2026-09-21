@@ -133,7 +133,7 @@ export default function AdminPage() {
               Admin Portal
             </h1>
             <p style={{ color: textMuted, fontSize: 13, margin: 0 }}>
-              TheSmartMoneyBlueprint
+              ALPHA WEALTH 
             </p>
           </div>
 
