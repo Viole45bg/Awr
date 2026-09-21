@@ -165,8 +165,8 @@ export default async function Home() {
             
             /* Nav CTA as plain text */
             .nav-cta {
-              font-size: 13px; 
-              font-weight: 600; 
+              font-size: 11px; 
+              font-weight: 300; 
               letter-spacing: 0.5px; 
               text-transform: uppercase;
               color: var(--offwhite);
@@ -593,7 +593,7 @@ export default async function Home() {
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
             <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
-              Contact Us
+              Connect with Us
             </a>
           </div>
         </header>
@@ -674,7 +674,7 @@ export default async function Home() {
         {/* ── Bottom CTA bar ── */}
         <div className="bottom-cta-bar">
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
-            Join Our Community
+            Connect with AWR Team
           </a>
         </div>
 
