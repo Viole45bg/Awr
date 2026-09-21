@@ -3,7 +3,10 @@ import Link from "next/link";
 import { neon } from "@neondatabase/serverless";
 import { Montserrat } from "next/font/google";
 import Logo from "../components/Logo";
+import AWRMark from "../components/AWRMark";
 import ContactUs from "../components/ContactUs";
+import NavCta from "../components/NavCta";
+import ExperienceSelector from "../components/ExperienceSelector";
 
 const display = Montserrat({
   subsets: ["latin"],
@@ -74,12 +77,6 @@ export default async function Home() {
               -webkit-font-smoothing: antialiased;
               position: relative;
             }
-
-            /* ══════════════════════════════════════════
-               BACKGROUND: perspective city grid
-               Layer A: flat grid + glow + dot nodes (fixed, full page)
-               Layer B: perspective floor grid (fixed, bottom 65vh)
-            ══════════════════════════════════════════ */
 
             body::before {
               content: "";
@@ -163,20 +160,26 @@ export default async function Home() {
             .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-decoration: none; }
             .brand-sub { font-size: 9px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); }
             .nav-cta {
-              font-size: 7px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase;
-              color: #fff; background: var(--blue);
-              border-radius: 100px; padding: 12px 28px;
+              font-size: 13px;
+              font-weight: 700;
+              letter-spacing: 0.8px;
+              text-transform: uppercase;
+              color: #fff;
+              background: var(--blue);
+              border: none;
+              border-radius: 100px;
+              padding: 11px 24px;
               transition: background 0.2s, transform 0.15s;
               white-space: nowrap;
               cursor: pointer;
             }
             .nav-cta:hover { background: var(--blue-glow); transform: translateY(-1px); }
 
-            /* ── Hero: Market Insights (New) ── */
+            /* ── Hero: Market Insights ── */
             .hero-market-insights {
               position: relative;
               padding: 110px 24px 80px;
-              text-align: left;
+              text-align: center;
               z-index: 1;
             }
             .hero-inner {
@@ -198,7 +201,7 @@ export default async function Home() {
               line-height: 1.7;
               color: var(--offwhite);
               max-width: 760px;
-              margin: 0 auto 56px;
+              margin: 0 auto 40px;
             }
             .hero-contact {
               display: flex;
@@ -240,7 +243,7 @@ export default async function Home() {
             .features-grid-2 {
               grid-template-columns: repeat(2, 1fr);
               max-width: 800px;
-              margin: 0 auto;
+              margin: 0 auto 0;
             }
             .feature {
               background: var(--navy-card);
@@ -257,9 +260,67 @@ export default async function Home() {
             .feature h3 { margin: 0 0 10px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--white); }
             .feature p { margin: 0; font-size: 13.5px; font-weight: 500; line-height: 1.75; color: rgba(255,255,255,0.70); }
 
+            /* ── Connect card (3rd, wide — matches reference design) ── */
+            .connect-card { grid-column: 1 / -1; padding: 40px 34px; }
+            .connect-card-tile {
+              width: 76px; height: 76px;
+              border-radius: 24px;
+              background: #fff;
+              display: grid; place-items: center;
+              margin-bottom: 26px;
+            }
+            .connect-card-badge {
+              display: flex; align-items: center; gap: 10px;
+              font-size: 13px; font-weight: 500; color: var(--muted);
+              margin-bottom: 16px;
+            }
+            .live-dot {
+              width: 9px; height: 9px; border-radius: 50%;
+              background: var(--blue-glow);
+              animation: pulseDot 2s infinite;
+            }
+            @keyframes pulseDot {
+              0%   { box-shadow: 0 0 0 0 rgba(77,159,255,0.6); }
+              70%  { box-shadow: 0 0 0 9px rgba(77,159,255,0); }
+              100% { box-shadow: 0 0 0 0 rgba(77,159,255,0); }
+            }
+            .connect-card h3 {
+              margin: 0 0 14px;
+              font-size: 30px; font-weight: 800;
+              letter-spacing: -0.01em;
+              text-transform: none;
+            }
+            .connect-card-desc {
+              margin: 0 0 30px;
+              font-size: 15px; font-weight: 500; line-height: 1.75;
+              color: rgba(255,255,255,0.70);
+              max-width: 520px;
+            }
+            .connect-card-divider {
+              height: 1px;
+              background: var(--line);
+              margin: 0 0 22px;
+            }
+            .connect-card-meta { display: flex; gap: 72px; }
+            .connect-card-meta .meta-label {
+              font-size: 11px; font-weight: 700;
+              letter-spacing: 1.8px; text-transform: uppercase;
+              color: var(--muted);
+              margin-bottom: 6px;
+            }
+            .connect-card-meta .meta-value { font-size: 16px; font-weight: 700; }
+
+            /* ── Experience selector ── */
+            .experience-selector {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 28px;
+            }
+
             /* ════════════════════════════════════════
                ContactUs component styles
-               All classes used by ContactUs.tsx
             ════════════════════════════════════════ */
 
             .contact-flow {
@@ -268,7 +329,6 @@ export default async function Home() {
               margin-top: 8px;
             }
 
-            /* Primary CTA button (closed state) */
             .contact-us-btn {
               display: inline-flex;
               align-items: center;
@@ -292,7 +352,6 @@ export default async function Home() {
               box-shadow: 0 14px 38px rgba(26,110,245,0.50);
             }
 
-            /* Expanded panel */
             .contact-panel {
               display: flex;
               flex-direction: column;
@@ -326,7 +385,6 @@ export default async function Home() {
 
             .selector-title strong { color: var(--white); }
 
-            /* Dropdown toggle */
             .dropdown { position: relative; }
 
             .dropdown-backdrop {
@@ -420,7 +478,6 @@ export default async function Home() {
               border-color: var(--accent, var(--blue));
             }
 
-            /* Channels / pills */
             .channels {
               display: flex;
               flex-direction: column;
@@ -483,7 +540,6 @@ export default async function Home() {
 
             .pill-label { white-space: nowrap; }
 
-            /* Close button */
             .contact-close {
               align-self: center;
               margin-top: 4px;
@@ -503,7 +559,6 @@ export default async function Home() {
               background: rgba(255,255,255,0.12);
             }
 
-            /* Animations */
             @media (prefers-reduced-motion: no-preference) {
               .contact-panel.revealed,
               .channels.revealed {
@@ -548,6 +603,23 @@ export default async function Home() {
               100% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4), 0 0 0 0 rgba(37, 211, 102, 0); }
             }
 
+            /* ── Final CTA ── */
+            .final-cta {
+              padding: 72px 24px;
+              text-align: center;
+              position: relative;
+              z-index: 1;
+            }
+            .final-cta-title {
+              font-size: 26px;
+              font-weight: 800;
+              letter-spacing: -0.01em;
+              margin: 0 0 28px;
+              background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+
             /* ── Footer ── */
             footer { padding: 36px 24px; background: rgba(9,20,38,0.85); border-top: 1px solid var(--line); text-align: center; }
             .footer-name { font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
@@ -561,6 +633,9 @@ export default async function Home() {
               .body-text { font-size: 15px; }
               .features { gap: 12px; }
               .features-grid-2 { grid-template-columns: 1fr; }
+              .connect-card { padding: 28px 22px; }
+              .connect-card h3 { font-size: 22px; }
+              .connect-card-meta { gap: 36px; flex-wrap: wrap; }
               .selector-row { flex-direction: column; align-items: center; }
               .contact-pill { padding: 11px 14px 11px 10px; font-size: 14px; }
               .pill-arrow { display: none; }
@@ -593,11 +668,11 @@ export default async function Home() {
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
-            <a href="#contact" className="nav-cta">Connect with Us</a>
+            <NavCta />
           </div>
         </header>
 
-        {/* ── New Hero: Market Insights ── */}
+        {/* ── Hero ── */}
         <section className="hero-market-insights" id="contact">
           <div className="hero-inner fade-up">
             <h1 className="hero-title">GROW WEALTH <br/> CREATE FREEDOM </h1>
@@ -606,12 +681,15 @@ export default async function Home() {
             </p>
 
             <div className="hero-contact">
+              <ExperienceSelector />
+            </div>
+            <div className="hero-contact">
               <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
             </div>
           </div>
         </section>
 
-        {/* ── Original Hero (Banner) moved below ── */}
+        {/* ── Banner ── */}
         <section className="hero">
           <Image
             src="/banner.jpg"
@@ -625,7 +703,7 @@ export default async function Home() {
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ── Remaining Features ── */}
+        {/* ── Features + Connect card ── */}
         <section className="body-section">
           <div className="body-inner fade-up">
             <div className="eyebrow">Why Join Us</div>
@@ -648,11 +726,37 @@ export default async function Home() {
                 <h3>Trading Guidance</h3>
                 <p>Step-by-step support so every trade decision is informed and confident.</p>
               </div>
+
+              {/* Third card — wide, branded per reference design */}
+              <div className="feature connect-card">
+                <div className="connect-card-tile">
+                  <AWRMark width={44} color="#0d1f3a" />
+                </div>
+                <div className="connect-card-badge">
+                  <span className="live-dot" aria-hidden="true" />
+                  Applications open
+                </div>
+                <h3>Connect With AWR</h3>
+                <p className="connect-card-desc">
+                  Join a community of disciplined investors building long-term wealth through education, guidance, and consistent strategy.
+                </p>
+                <div className="connect-card-divider" aria-hidden="true" />
+                <div className="connect-card-meta">
+                  <div>
+                    <div className="meta-label">Focus</div>
+                    <div className="meta-value">Investment Education</div>
+                  </div>
+                  <div>
+                    <div className="meta-label">Members</div>
+                    <div className="meta-value">Open to All Levels</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── Ticker (moved to bottom, above footer) ── */}
+        {/* ── Ticker ── */}
         <div className="ticker" role="status" aria-label="Now accepting new members">
           <div className="ticker-track">
             {[0, 1].map((copy) => (
@@ -667,6 +771,13 @@ export default async function Home() {
           </div>
         </div>
 
+        {/* ── Final CTA (bottom of page) ── */}
+        <section className="final-cta">
+          <div className="eyebrow">Ready When You Are</div>
+          <h2 className="final-cta-title">Start Your Journey With AWR</h2>
+          <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
+        </section>
+
         {/* ── Footer ── */}
         <footer>
           <div className="footer-name">Alpha Wealth &amp; Retirement Club</div>
@@ -675,7 +786,7 @@ export default async function Home() {
           </p>
         </footer>
 
-        {/* ── Floating Chat Action Button ── */}
+        {/* ── Floating Chat ── */}
         <a
           href={WHATSAPP_URL}
           target="_blank"
