@@ -228,8 +228,8 @@ export default async function Home() {
               margin: 0 auto;
             }
             .hero-title {
-              font-size: 17px;
-              font-weight: 400;
+              font-size: 15px;
+              font-weight: 4+300;
               margin: 0 0 24px;
               line-height: 1.1;
               letter-spacing: -0.02em;
@@ -238,7 +238,7 @@ export default async function Home() {
               -webkit-text-fill-color: transparent;
             }
             .hero-text {
-              font-size: 20px;
+              font-size: 15px;
               line-height: 1.7;
               color: var(--offwhite);
               max-width: 760px;
@@ -251,7 +251,7 @@ export default async function Home() {
             }
             .hero-contact {
               display: flex;
-              justify-content: center;
+              justify-content: left;
             }
 
             /* ── ExperienceSelector ── */
