@@ -12,13 +12,21 @@ async function ensureTable() {
       whatsapp_url TEXT NOT NULL DEFAULT '',
       telegram_url TEXT NOT NULL DEFAULT '',
       livechat_url TEXT NOT NULL DEFAULT '',
-      agent_name TEXT NOT NULL DEFAULT ''
+      agent_name TEXT NOT NULL DEFAULT '',
+      whatsapp_enabled BOOLEAN NOT NULL DEFAULT TRUE,
+      telegram_enabled BOOLEAN NOT NULL DEFAULT TRUE,
+      livechat_enabled BOOLEAN NOT NULL DEFAULT TRUE
     )
   `;
 
   // Backfill: add columns if the table was created before this update
   await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS livechat_url TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS agent_name TEXT NOT NULL DEFAULT ''`;
+  
+  // Backfill the new toggle columns
+  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS whatsapp_enabled BOOLEAN NOT NULL DEFAULT TRUE`;
+  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS telegram_enabled BOOLEAN NOT NULL DEFAULT TRUE`;
+  await sql`ALTER TABLE site_links ADD COLUMN IF NOT EXISTS livechat_enabled BOOLEAN NOT NULL DEFAULT TRUE`;
   
   // Clean up unused columns from previous versions
   await sql`ALTER TABLE site_links DROP COLUMN IF EXISTS whatsapp_number`;
@@ -39,10 +47,8 @@ function safeCompare(a, b) {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
-// Very small in-memory rate limiter — resets on cold start and isn't
-// shared across instances, so treat it as a deterrent, not a guarantee.
-// Swap in Upstash Ratelimit (or similar) if this needs to be airtight.
-const attempts = new Map(); // ip -> { count, resetAt }
+// Very small in-memory rate limiter
+const attempts = new Map(); 
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 60_000;
 
@@ -60,8 +66,6 @@ function isRateLimited(req) {
   return entry.count > MAX_ATTEMPTS;
 }
 
-// Basic sanity check: must be http(s) and reasonably short.
-// Empty string is allowed (so links can be cleared).
 function isValidUrl(value) {
   if (value === "") return true;
   if (typeof value !== "string" || value.length > 2048) return false;
@@ -73,20 +77,25 @@ function isValidUrl(value) {
   }
 }
 
-// Basic sanity check for plain text fields (like agent name): 
-// just plain text, no scripts, reasonably short.
 function isValidHandle(value) {
   if (typeof value !== "string") return false;
   if (value.length > 100) return false;
   return !/[<>]/.test(value);
 }
 
-// GET: fetch current links (public — used by homepage)
+// GET: fetch current links (public — used by homepage & admin panel)
 export async function GET() {
   try {
     await ensureTable();
     const rows = await sql`
-      SELECT whatsapp_url, telegram_url, livechat_url, agent_name
+      SELECT 
+        whatsapp_url, 
+        telegram_url, 
+        livechat_url, 
+        agent_name,
+        whatsapp_enabled,
+        telegram_enabled,
+        livechat_enabled
       FROM site_links WHERE id = 1
     `;
     const row = rows[0];
@@ -95,6 +104,10 @@ export async function GET() {
       telegram: row?.telegram_url ?? "",
       livechat: row?.livechat_url ?? "",
       agentName: row?.agent_name ?? "",
+      // Return the new boolean flags (default to true if somehow null)
+      whatsappEnabled: row?.whatsapp_enabled ?? true,
+      telegramEnabled: row?.telegram_enabled ?? true,
+      livechatEnabled: row?.livechat_enabled ?? true,
     });
   } catch (err) {
     console.error("GET /site-links failed:", err);
@@ -105,7 +118,7 @@ export async function GET() {
   }
 }
 
-// POST: log in with password -> sets a session cookie, or update links if already authed
+// POST: log in or update links
 export async function POST(req) {
   let body;
   try {
@@ -150,11 +163,20 @@ export async function POST(req) {
     const livechat = body.livechat ?? body.livechat_url ?? "";
     const agentName = body.agentName ?? body.agent_name ?? "";
 
+    // Extract boolean flags, default to true if undefined
+    const whatsappEnabled = body.whatsappEnabled ?? true;
+    const telegramEnabled = body.telegramEnabled ?? true;
+    const livechatEnabled = body.livechatEnabled ?? true;
+
+    // Validate all fields including the new booleans
     if (
       typeof whatsapp !== "string" ||
       typeof telegram !== "string" ||
       typeof livechat !== "string" ||
-      typeof agentName !== "string"
+      typeof agentName !== "string" ||
+      typeof whatsappEnabled !== "boolean" ||
+      typeof telegramEnabled !== "boolean" ||
+      typeof livechatEnabled !== "boolean"
     ) {
       return NextResponse.json({ success: false, error: "Invalid payload" }, { status: 400 });
     }
@@ -168,13 +190,26 @@ export async function POST(req) {
     try {
       await ensureTable();
       await sql`
-        INSERT INTO site_links (id, whatsapp_url, telegram_url, livechat_url, agent_name)
-        VALUES (1, ${whatsapp}, ${telegram}, ${livechat}, ${agentName})
+        INSERT INTO site_links (
+          id, 
+          whatsapp_url, 
+          telegram_url, 
+          livechat_url, 
+          agent_name,
+          whatsapp_enabled,
+          telegram_enabled,
+          livechat_enabled
+        )
+        VALUES (1, ${whatsapp}, ${telegram}, ${livechat}, ${agentName}, ${whatsappEnabled}, ${telegramEnabled}, ${livechatEnabled})
         ON CONFLICT (id) DO UPDATE
-        SET whatsapp_url = EXCLUDED.whatsapp_url,
+        SET 
+            whatsapp_url = EXCLUDED.whatsapp_url,
             telegram_url = EXCLUDED.telegram_url,
             livechat_url = EXCLUDED.livechat_url,
-            agent_name = EXCLUDED.agent_name
+            agent_name = EXCLUDED.agent_name,
+            whatsapp_enabled = EXCLUDED.whatsapp_enabled,
+            telegram_enabled = EXCLUDED.telegram_enabled,
+            livechat_enabled = EXCLUDED.livechat_enabled
       `;
       return NextResponse.json({ success: true });
     } catch (err) {
