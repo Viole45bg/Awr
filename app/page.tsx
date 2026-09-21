@@ -144,13 +144,14 @@ export default async function Home() {
             #contact { scroll-margin-top: 90px; }
 
             /* ── Ticker ── */
-            .ticker { overflow: hidden; background: var(--blue); padding: 9px 0; margin-bottom: 56px; }
-            .ticker-track { display: flex; width: max-content; animation: tickerScroll 55s linear infinite; }
-            .ticker-group { display: flex; align-items: center; white-space: nowrap; }
-            .ticker-item {
-              display: inline-flex; align-items: center; gap: 24px; padding-right: 24px;
-              font-size: 10px; font-weight: 700; letter-spacing: 2.8px; text-transform: uppercase; color: #fff;
-            }
+.ticker {
+  overflow: hidden;
+  background: var(--blue);
+  padding: 10px 0;
+  margin: 88px auto 64px;
+  border-radius: 100px;
+}
+
             .ticker-item::after { content: "✦"; font-size: 8px; opacity: 0.7; }
             @keyframes tickerScroll { from { transform: translateX(-50%); } to { transform: translateX(0); } }
             @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
