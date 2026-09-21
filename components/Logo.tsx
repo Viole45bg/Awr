@@ -31,11 +31,9 @@ export default function AWRLogo({ width = 260, color = "#ffffff" }: AWRLogoProps
 
       {/* Wordmark */}
       <text x="92" y="28" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="20" fill={color} letterSpacing="0.5">
-        ALPHA WEALTH
+        Team
       </text>
-      <text x="92" y="45" fontFamily="'Arial Black', Arial, sans-serif" fontWeight="900" fontSize="20" fill={color} letterSpacing="0.5">
-        &amp; RETIREMENT CLUB
-      </text>
+      
 
       {/* Tagline */}
       <text x="92" y="59" fontFamily="Arial, sans-serif" fontWeight="400" fontSize="7" fill={color} letterSpacing="2" opacity="0.9">
