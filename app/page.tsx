@@ -250,6 +250,10 @@ export default async function Home() {
               justify-content: center;
               margin-bottom: 32px;
             }
+            .hero-title-second-line {
+  white-space: nowrap;
+}
+
             .hero-contact {
               display: flex;
               justify-content: left;
