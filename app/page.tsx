@@ -600,7 +600,7 @@ export default async function Home() {
         {/* ── New Hero: Market Insights ── */}
         <section className="hero-market-insights" id="contact">
           <div className="hero-inner fade-up">
-            <h1 className="hero-title">Market Insights</h1>
+            <h1 className="hero-title">Grow Wealth <br/> Create Freedom </h1>
             <p className="hero-text">
               Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
             </p>
