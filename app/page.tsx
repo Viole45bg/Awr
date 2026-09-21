@@ -5,7 +5,7 @@ import { Montserrat } from "next/font/google";
 import Logo from "../components/Logo";
 import ContactUs from "../components/ContactUs";
 import ExperienceSelector from "../components/ExperienceSelector";
-import LiveChatWidget from "../components/LiveChatWidget";
+
 
 const display = Montserrat({
   subsets: ["latin"],
@@ -664,13 +664,7 @@ export default async function Home() {
                 <p>Step-by-step support so every trade decision is informed and confident.</p>
               </div>
             </div>
-
-            <div className="eyebrow" style={{ marginTop: "64px" }}>Select Your Experience</div>
-            <ExperienceSelector />
-          </div>
-        </section>
-
-        {/* ── Ticker ── */}
+            {/* ── Ticker ── */}
         <div className="ticker" role="status" aria-label="Now accepting new members">
           <div className="ticker-track">
             {[0, 1].map((copy) => (
@@ -684,6 +678,13 @@ export default async function Home() {
             ))}
           </div>
         </div>
+
+            <div className="eyebrow" style={{ marginTop: "64px" }}>Select Your Experience</div>
+            <ExperienceSelector />
+          </div>
+        </section>
+
+        
 
         {/* ── Bottom CTA bar ── */}
         <div className="bottom-cta-bar">
@@ -700,9 +701,7 @@ export default async function Home() {
           </p>
         </footer>
 
-        {/* ── Floating Chat ── */}
-        <LiveChatWidget livechatUrl={LIVECHAT_URL} agentName={AGENT_NAME} />
-      </div>
+        
     </main>
   );
 }
