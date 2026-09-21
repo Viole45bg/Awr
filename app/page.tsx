@@ -76,13 +76,8 @@ export default async function Home() {
     telegramEnabled,
   } = await getLinks();
 
-  // Determine the best available link for the top navigation
-  const topNavUrl =
-    telegramEnabled && TELEGRAM_URL
-      ? TELEGRAM_URL
-      : whatsappEnabled && WHATSAPP_URL
-      ? WHATSAPP_URL
-      : null;
+  // Navbar CTA + Bottom CTA both point to Telegram (respects the admin toggle)
+  const ctaUrl = telegramEnabled && TELEGRAM_URL ? TELEGRAM_URL : null;
 
   return (
     <main className={display.variable}>
@@ -636,9 +631,9 @@ export default async function Home() {
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
 
-            {/* Conditionally render Top Nav CTA */}
-            {topNavUrl && (
-              <a href={topNavUrl} target="_blank" rel="noopener noreferrer" className="nav-cta">
+            {/* Navbar CTA → Telegram */}
+            {ctaUrl && (
+              <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="nav-cta">
                 Connect with Us
               </a>
             )}
@@ -728,10 +723,10 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── Bottom CTA bar (Conditionally Rendered) ── */}
-        {whatsappEnabled && WHATSAPP_URL && (
+        {/* ── Bottom CTA bar → Telegram ── */}
+        {ctaUrl && (
           <div className="bottom-cta-bar">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
+            <a href={ctaUrl} target="_blank" rel="noopener noreferrer" className="nav-cta">
               Connect with AWR Team
             </a>
           </div>
