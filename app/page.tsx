@@ -17,22 +17,27 @@ const sql = neon(process.env.DATABASE_URL!);
 
 async function getLinks() {
   try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS site_links (
+        id INT PRIMARY KEY DEFAULT 1,
+        whatsapp_url TEXT NOT NULL DEFAULT '',
+        telegram_url TEXT NOT NULL DEFAULT '',
+        livechat_url TEXT NOT NULL DEFAULT '',
+        agent_name TEXT NOT NULL DEFAULT ''
+      )
+    `;
     const rows =
-      await sql`SELECT whatsapp_url, telegram_url, whatsapp_number, telegram_username FROM site_links WHERE id = 1`;
+      await sql`SELECT whatsapp_url, telegram_url, livechat_url, agent_name FROM site_links WHERE id = 1`;
     const row = rows[0];
     return {
-      whatsapp: row?.whatsapp_url || "https://wa.link/",
-      telegram: row?.telegram_url || "https://t.me/",
-      whatsappNumber: row?.whatsapp_number || "+1 2345",
-      telegramUsername: row?.telegram_username || "@user",
+      whatsapp: row?.whatsapp_url ?? "",
+      telegram: row?.telegram_url ?? "",
+      livechat: row?.livechat_url ?? "",
+      agentName: row?.agent_name ?? "",
     };
-  } catch {
-    return {
-      whatsapp: "https://",
-      telegram: "https://",
-      whatsappNumber: "",
-      telegramUsername: "",
-    };
+  } catch (err) {
+    console.error("getLinks failed:", err);
+    return { whatsapp: "", telegram: "", livechat: "", agentName: "" };
   }
 }
 
@@ -46,7 +51,12 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const { whatsapp: WHATSAPP_URL, telegram: TELEGRAM_URL, telegramUsername } = await getLinks();
+  const {
+    whatsapp: WHATSAPP_URL,
+    telegram: TELEGRAM_URL,
+    livechat: LIVECHAT_URL,
+    agentName: AGENT_NAME,
+  } = await getLinks();
 
   return (
     <main className={display.variable}>
@@ -162,12 +172,12 @@ export default async function Home() {
             }
             .brand { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-decoration: none; }
             .brand-sub { font-size: 9px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); }
-            
+
             /* Nav CTA as plain text */
             .nav-cta {
-              font-size: 11px; 
-              font-weight: 300; 
-              letter-spacing: 0.5px; 
+              font-size: 11px;
+              font-weight: 300;
+              letter-spacing: 0.5px;
               text-transform: uppercase;
               color: var(--offwhite);
               background: transparent;
@@ -195,24 +205,24 @@ export default async function Home() {
               background: transparent;
             }
             .bottom-cta-bar > * { pointer-events: auto; }
-            
+
             /* Distinct styling for the Bottom CTA Pill */
             .bottom-cta-bar .nav-cta {
               font-size: 14px;
               font-weight: 700;
               letter-spacing: 0.6px;
               text-transform: uppercase;
-              color: #fff; 
+              color: #fff;
               background: var(--blue);
-              border-radius: 100px; 
+              border-radius: 100px;
               padding: 16px 36px;
               box-shadow: 0 8px 28px rgba(26,110,245,0.45);
               transition: background 0.2s, transform 0.15s;
               display: inline-block;
             }
-            .bottom-cta-bar .nav-cta:hover { 
-              background: var(--blue-glow); 
-              transform: translateY(-2px); 
+            .bottom-cta-bar .nav-cta:hover {
+              background: var(--blue-glow);
+              transform: translateY(-2px);
               color: #fff;
             }
 
@@ -228,14 +238,14 @@ export default async function Home() {
               margin: 0 auto;
             }
             .hero-title {
-              font-size: 13px;
-              font-weight: 300;
+              font-size: 11px;
+              font-weight: 800;
               margin: 0 0 18px;
-              line-height: 1.1;
-              
-              letter-spacing: -0.02em;
+              line-height: 1.2;
+              letter-spacing: 1px;
               background: linear-gradient(90deg, #fff 0%, #4d9fff 100%);
               -webkit-background-clip: text;
+              background-clip: text;
               -webkit-text-fill-color: transparent;
             }
             .hero-text {
@@ -250,9 +260,6 @@ export default async function Home() {
               justify-content: center;
               margin-bottom: 32px;
             }
-            .hero-title-second-line {
-  white-space: nowrap;
-}
 
             .hero-contact {
               display: flex;
@@ -277,13 +284,13 @@ export default async function Home() {
             }
 
             /* ── Body section ── */
-.body-section {
-  padding: 64px 24px 88px;
-  background: transparent;
-  position: relative;
-  overflow: visible;  /* was: hidden — this was clipping the open dropdown at the section edge */
-  z-index: 2;         /* lifts the section (and its open menu) above the ticker / CTA bar / footer, which sit at z-index 1 */
-}
+            .body-section {
+              padding: 64px 24px 88px;
+              background: transparent;
+              position: relative;
+              overflow: visible;
+              z-index: 2;
+            }
             .body-inner {
               position: relative; z-index: 1;
               width: min(720px, 100%); margin: 0 auto; text-align: center;
@@ -571,7 +578,6 @@ export default async function Home() {
               .contact-pills { gap: 10px; }
 
               .hero-market-insights { padding: 72px 18px 48px; }
-              .hero-title { font-size: 36px; }
               .hero-text { font-size: 16px; margin-bottom: 32px; }
 
               .bottom-cta-bar { padding: 32px 16px 48px; }
@@ -606,9 +612,9 @@ export default async function Home() {
         <section className="hero-market-insights" id="contact">
           <div className="hero-inner fade-up">
             <h1 className="hero-title">
-  ALPHA WEALTH <br/>
-  <span style={{ whiteSpace: 'nowrap' }}>& RETIREMENT CLUB</span>
-</h1>
+              ALPHA WEALTH <br />
+              <span style={{ whiteSpace: "nowrap" }}>& RETIREMENT CLUB</span>
+            </h1>
             <p className="hero-text">
               Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
             </p>
@@ -641,7 +647,7 @@ export default async function Home() {
               <div className="feature">
                 <div className="feature-icon">
                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2a5 5 0 110 10A5 5 0 0112 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/>
+                    <path d="M12 2a5 5 0 110 10A5 5 0 0112 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z" />
                   </svg>
                 </div>
                 <h3>Education</h3>
@@ -650,7 +656,7 @@ export default async function Home() {
               <div className="feature">
                 <div className="feature-icon">
                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
                   </svg>
                 </div>
                 <h3>Trading Guidance</h3>
@@ -694,7 +700,7 @@ export default async function Home() {
         </footer>
 
         {/* ── Floating Chat ── */}
-        <LiveChatWidget livechatUrl={TELEGRAM_URL} agentName={telegramUsername} />
+        <LiveChatWidget livechatUrl={LIVECHAT_URL} agentName={AGENT_NAME} />
       </div>
     </main>
   );
