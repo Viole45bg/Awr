@@ -6,6 +6,7 @@ import Logo from "../components/Logo";
 import ContactUs from "../components/ContactUs";
 import NavCta from "../components/NavCta";
 import ExperienceSelector from "../components/ExperienceSelector";
+import FloatingChat from "../components/FloatingChat";
 
 const display = Montserrat({
   subsets: ["latin"],
@@ -75,7 +76,6 @@ export default async function Home() {
               font-family: var(--font-display), system-ui, sans-serif;
               -webkit-font-smoothing: antialiased;
               position: relative;
-              /* room for the fixed bottom bar */
               padding-bottom: 88px;
             }
 
@@ -190,7 +190,6 @@ export default async function Home() {
               pointer-events: none;
             }
             .bottom-cta-bar > * { pointer-events: auto; }
-            /* Override font size for the bottom bar's NavCta to be more prominent */
             .bottom-cta-bar .nav-cta {
               font-size: 11px;
               padding: 14px 36px;
@@ -526,40 +525,6 @@ export default async function Home() {
               }
             }
 
-            /* ── Floating Chat Action Button ── */
-            .floating-chat {
-              position: fixed;
-              /* sit above the bottom bar (88px) + gap */
-              bottom: 104px;
-              right: 32px;
-              z-index: 50;
-              width: 64px;
-              height: 64px;
-              border-radius: 50%;
-              background: var(--whatsapp);
-              display: grid;
-              place-items: center;
-              box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
-              transition: transform 0.2s, box-shadow 0.2s;
-              cursor: pointer;
-              border: none;
-              animation: pulseChat 3s infinite;
-            }
-            .floating-chat:hover {
-              transform: scale(1.1) translateY(-2px);
-              box-shadow: 0 14px 40px rgba(37, 211, 102, 0.5);
-            }
-            .floating-chat svg {
-              width: 32px;
-              height: 32px;
-              fill: #fff;
-            }
-            @keyframes pulseChat {
-              0%   { box-shadow: 0 10px 30px rgba(37,211,102,0.4), 0 0 0 0   rgba(37,211,102,0.7); }
-              70%  { box-shadow: 0 10px 30px rgba(37,211,102,0.4), 0 0 0 15px rgba(37,211,102,0); }
-              100% { box-shadow: 0 10px 30px rgba(37,211,102,0.4), 0 0 0 0   rgba(37,211,102,0); }
-            }
-
             /* ── Footer ── */
             footer { padding: 36px 24px; background: rgba(9,20,38,0.85); border-top: 1px solid var(--line); text-align: center; }
             .footer-name { font-size: 11px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
@@ -581,9 +546,6 @@ export default async function Home() {
               .hero-market-insights { padding: 72px 18px 48px; }
               .hero-title { font-size: 36px; }
               .hero-text { font-size: 16px; margin-bottom: 32px; }
-
-              .floating-chat { bottom: 96px; right: 16px; width: 56px; height: 56px; }
-              .floating-chat svg { width: 28px; height: 28px; }
 
               .bottom-cta-bar { padding: 12px 16px 18px; }
             }
@@ -607,7 +569,6 @@ export default async function Home() {
               <Logo width={160} color="#ffffff" />
               <span className="brand-sub">Income · Growth · Freedom</span>
             </Link>
-            {/* NavCta scrolls to #contact and fires the open event */}
             <NavCta />
           </div>
         </header>
@@ -620,7 +581,6 @@ export default async function Home() {
               Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
             </p>
 
-            {/* Experience selector sits between the body copy and the channel pills */}
             <div className="hero-experience">
               <ExperienceSelector />
             </div>
@@ -695,18 +655,8 @@ export default async function Home() {
           </p>
         </footer>
 
-        {/* ── Floating WhatsApp button ── */}
-        <a
-          href={WHATSAPP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="floating-chat"
-          aria-label="Chat with us on WhatsApp"
-        >
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-          </svg>
-        </a>
+        {/* ── Floating Chat (scroll-triggered, opens bottom sheet) ── */}
+        <FloatingChat whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
 
         {/* ── Bottom CTA bar (fixed, full-width) ── */}
         <div className="bottom-cta-bar">
