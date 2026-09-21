@@ -175,27 +175,13 @@ export default async function Home() {
             /* ── Hero: Market Insights (New) ── */
             .hero-market-insights {
               position: relative;
-              padding: 120px 24px 80px;
+              padding: 110px 24px 80px;
               text-align: center;
               z-index: 1;
             }
             .hero-inner {
               max-width: 900px;
               margin: 0 auto;
-            }
-            .hero-icon {
-              width: 80px;
-              height: 80px;
-              border-radius: 24px;
-              background: rgba(26,110,245,0.20);
-              display: grid;
-              place-items: center;
-              margin: 0 auto 32px;
-            }
-            .hero-icon svg {
-              width: 40px;
-              height: 40px;
-              fill: var(--blue-glow);
             }
             .hero-title {
               font-size: 56px;
@@ -579,13 +565,11 @@ export default async function Home() {
               .contact-pill { padding: 11px 14px 11px 10px; font-size: 14px; }
               .pill-arrow { display: none; }
               .contact-pills { gap: 10px; }
-              
-              .hero-market-insights { padding: 80px 18px 48px; }
+
+              .hero-market-insights { padding: 72px 18px 48px; }
               .hero-title { font-size: 36px; }
               .hero-text { font-size: 16px; margin-bottom: 40px; }
-              .hero-icon { width: 60px; height: 60px; }
-              .hero-icon svg { width: 30px; height: 30px; }
-              
+
               .floating-chat { bottom: 20px; right: 20px; width: 56px; height: 56px; }
               .floating-chat svg { width: 28px; height: 28px; }
             }
@@ -602,21 +586,6 @@ export default async function Home() {
       />
 
       <div>
-        {/* ── Ticker ── */}
-        <div className="ticker" role="status" aria-label="Now accepting new members">
-          <div className="ticker-track">
-            {[0, 1].map((copy) => (
-              <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <span className="ticker-item" key={i}>
-                    Now accepting new members
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* ── Nav ── */}
         <header className="brand-bar">
           <div className="brand-bar-inner">
@@ -631,17 +600,11 @@ export default async function Home() {
         {/* ── New Hero: Market Insights ── */}
         <section className="hero-market-insights" id="contact">
           <div className="hero-inner fade-up">
-            <div className="eyebrow">Your financial future starts here</div>
-            <div className="feature-icon hero-icon">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 17l4-8 4 5 3-4 4 7H3z"/>
-              </svg>
-            </div>
             <h1 className="hero-title">Market Insights</h1>
             <p className="hero-text">
               Take the next step toward building long-term financial confidence and achieving your investment goals. Whether you're looking to grow your wealth, generate passive income, or plan for retirement, our community provides valuable market insights, educational resources, and trading guidance to help you make informed financial decisions.
             </p>
-            
+
             <div className="hero-contact">
               <ContactUs whatsappUrl={WHATSAPP_URL} telegramUrl={TELEGRAM_URL} />
             </div>
@@ -665,8 +628,8 @@ export default async function Home() {
         {/* ── Remaining Features ── */}
         <section className="body-section">
           <div className="body-inner fade-up">
-             <div className="eyebrow">Why Join Us</div>
-             <div className="features features-grid-2">
+            <div className="eyebrow">Why Join Us</div>
+            <div className="features features-grid-2">
               <div className="feature">
                 <div className="feature-icon">
                   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -689,6 +652,21 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* ── Ticker (moved to bottom, above footer) ── */}
+        <div className="ticker" role="status" aria-label="Now accepting new members">
+          <div className="ticker-track">
+            {[0, 1].map((copy) => (
+              <div className="ticker-group" key={copy} aria-hidden={copy === 1}>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <span className="ticker-item" key={i}>
+                    Now accepting new members
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* ── Footer ── */}
         <footer>
           <div className="footer-name">Alpha Wealth &amp; Retirement Club</div>
@@ -698,11 +676,11 @@ export default async function Home() {
         </footer>
 
         {/* ── Floating Chat Action Button ── */}
-        <a 
-          href={WHATSAPP_URL} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="floating-chat" 
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="floating-chat"
           aria-label="Chat with us on WhatsApp"
         >
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
