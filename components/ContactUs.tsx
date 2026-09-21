@@ -46,16 +46,40 @@ export default function ContactUs({
     return () => window.removeEventListener("awr:open-contact", handleOpen);
   }, []);
 
-  // Determine which options are actually available to show
   const showWhatsApp = whatsappEnabled && !!whatsappUrl;
   const showTelegram = telegramEnabled && !!telegramUrl;
-  const hasAnyContact = showWhatsApp || showTelegram;
+  const availableCount = (showWhatsApp ? 1 : 0) + (showTelegram ? 1 : 0);
 
-  // If BOTH toggles are turned off (or URLs are missing), hide the entire component
-  if (!hasAnyContact) {
-    return null;
+  // No channels available → hide completely
+  if (availableCount === 0) return null;
+
+  // Exactly ONE channel → render a single direct CTA pill.
+  // No expand step, no "Reach the team on:" label, no close button.
+  if (availableCount === 1) {
+    const isWhatsApp = showWhatsApp;
+    const href = isWhatsApp ? whatsappUrl : telegramUrl;
+    const label = isWhatsApp ? "Join WhatsApp" : "Join Telegram";
+
+    return (
+      <div className="contact-flow">
+        <a
+          className={`contact-pill ${isWhatsApp ? "whatsapp" : "telegram"}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ padding: "16px 30px 16px 14px", borderRadius: 100, fontSize: 16 }}
+        >
+          <span className="pill-icon-wrap" style={{ width: 38, height: 38 }}>
+            {isWhatsApp ? <WhatsAppGlyph /> : <TelegramGlyph />}
+          </span>
+          <span className="pill-label">{label}</span>
+          <PillArrow />
+        </a>
+      </div>
+    );
   }
 
+  // BOTH channels → original expandable panel behavior
   if (!open) {
     return (
       <div className="contact-flow">
